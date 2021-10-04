@@ -1,14 +1,14 @@
 const popup = document.querySelector('.popup');
-const ProfileInfo = document.querySelector('.ProfileInfo__edit');
+const ProfileInfo = document.querySelector('.profile__edit');
 const popupCloseButton = document.querySelector('.popup__close');
 const popupButton = document.querySelector('.popup__button');
 const form = document.querySelector('.popup__form');
 
 const nameField = document.querySelector('.popup__inputName');
-const Profile = document.querySelector('.ProfileInfo__name');
+const Profile = document.querySelector('.profile__name');
 
 const Job = document.querySelector('.popup__inputJob');
-const Status = document.querySelector('.ProfileInfo__status');
+const Status = document.querySelector('.profile__status');
 
 /*const LikeHeart = document.querySelector('.element__reaction')  /// это с массивами не работает */
 
@@ -48,6 +48,6 @@ form.addEventListener('submit', submitForm)
 
 
 
-let string = document.querySelector('.ProfileInfo__name').textContent
+let string = document.querySelector('.profile__name').textContent
 let shortText=string.substring(10, string.length - 255 );
-document.querySelector('.ProfileInfo__name').textContent = shortText + "..."  ;
+document.querySelector('.profile__name').textContent = shortText + "..."  ;

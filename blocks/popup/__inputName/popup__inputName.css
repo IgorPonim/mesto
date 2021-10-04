@@ -1,0 +1,6 @@
+.popup__inputName {
+    margin: 54px auto 0 auto;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+    width: 100%;
+}
