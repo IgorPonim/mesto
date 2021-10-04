@@ -9,7 +9,6 @@
     margin: 0;
     padding: 0;
     height: min-content;
-    white-space: nowrap;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
