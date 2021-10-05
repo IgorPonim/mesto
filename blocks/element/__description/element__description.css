@@ -1,6 +1,12 @@
 .element__description {
     display: flex;
     min-width: 240px;
-    margin: 25px auto 20px auto;
-    width: 90%;
+    margin: 20px auto 25px auto;
+    width: 85%;
+}
+
+@media screen and (max-width: 425px) {
+    .element__description {
+        margin-bottom: 27px;
+    }
 }

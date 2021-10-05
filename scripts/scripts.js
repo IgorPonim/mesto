@@ -10,8 +10,8 @@ const Status = document.querySelector('.profile__status');
 /*const LikeHeart = document.querySelector('.element__reaction')  /// это с массивами не работает */
 
 /*мы еще не проходили forEach, помог разобраться старший студент*/
-function heart(ev) {
-    ev.target.classList.toggle('element__reaction_like');
+function heart(event) {
+    event.target.classList.toggle('element__reaction_like');
 }
 Array.from(document.querySelectorAll('.element__reaction')).forEach((el) => el.addEventListener('click', heart));
 
@@ -19,9 +19,9 @@ Array.from(document.querySelectorAll('.element__reaction')).forEach((el) => el.a
 function popupOpen() { popup.classList.add('popup_open') }
 function popupClose() { popup.classList.remove('popup_open') }
 
-ProfileInfo.addEventListener('click', popupOpen)
-popupCloseButton.addEventListener('click', popupClose)
-popupButton.addEventListener('click', popupClose)
+ProfileInfo.addEventListener('click', popupOpen);
+popupCloseButton.addEventListener('click', popupClose);
+popupButton.addEventListener('click', popupClose);
 
 
 function submitForm(event) {
@@ -29,12 +29,23 @@ function submitForm(event) {
     Profile.textContent = nameField.value;
     Status.textContent = Job.value;
     popupClose();
-
 }
+
+
 
 form.addEventListener('submit', submitForm)
 
-/*я так и не понял изз задания нужно єто через js делать или css*/
+/*я так и не понял изз задания нужно єто через js делать или css*//*
 let string = document.querySelector('.profile__name').textContent
-let shortText = string.substring(10, string.length - 255);
+let shortText = string.substring(15, string.length - 351223);
 document.querySelector('.profile__name').textContent = shortText + "...";
+*/
+function banana(event) {
+
+    if (event.target.classList.contains('popup')) {
+        popupClose();
+    }
+}
+
+popup.addEventListener('click', banana);
+popup.addEventListener('mouseup', banana);
