@@ -1,51 +1,32 @@
 const popup = document.querySelector('.popup');
-const ProfileInfo = document.querySelector('.profile__edit');
+const profileInfo = document.querySelector('.profile__edit');
 const popupCloseButton = document.querySelector('.popup__close');
 const popupButton = document.querySelector('.popup__button');
 const form = document.querySelector('.popup__form');
-const nameField = document.querySelector('.popup__inputName');
-const Profile = document.querySelector('.profile__name');
-const Job = document.querySelector('.popup__inputJob');
-const Status = document.querySelector('.profile__status');
-/*const LikeHeart = document.querySelector('.element__reaction')  /// это с массивами не работает */
-
-/*мы еще не проходили forEach, помог разобраться старший студент*/
-function heart(event) {
-    event.target.classList.toggle('element__reaction_like');
-}
-Array.from(document.querySelectorAll('.element__reaction')).forEach((el) => el.addEventListener('click', heart));
+const nameField = document.querySelector('.popup__input_name');
+const profile = document.querySelector('.profile__name');
+const job = document.querySelector('.popup__input_job');
+const myStatus = document.querySelector('.profile__status');
 
 
 function popupOpen() { popup.classList.add('popup_open') }
 function popupClose() { popup.classList.remove('popup_open') }
 
-ProfileInfo.addEventListener('click', popupOpen);
+profileInfo.addEventListener('click', popupOpen);
+//я надеюсь вас правильно понял?//
+profile.textContent = nameField.value;
+myStatus.textContent = job.value;
 popupCloseButton.addEventListener('click', popupClose);
-popupButton.addEventListener('click', popupClose);
+
 
 
 function submitForm(event) {
     event.preventDefault()
-    Profile.textContent = nameField.value;
-    Status.textContent = Job.value;
+    profile.textContent = nameField.value;
+    myStatus.textContent = job.value;
     popupClose();
 }
 
 
-
 form.addEventListener('submit', submitForm)
 
-/*я так и не понял изз задания нужно єто через js делать или css*//*
-let string = document.querySelector('.profile__name').textContent
-let shortText = string.substring(15, string.length - 351223);
-document.querySelector('.profile__name').textContent = shortText + "...";
-*/
-function banana(event) {
-
-    if (event.target.classList.contains('popup')) {
-        popupClose();
-    }
-}
-
-popup.addEventListener('click', banana);
-popup.addEventListener('mouseup', banana);

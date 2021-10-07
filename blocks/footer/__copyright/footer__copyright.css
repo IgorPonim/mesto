@@ -7,4 +7,13 @@
     color: #545454;
     display: block;
     align-self: flex-start;
+    margin: 0;
+    padding: 0;
+}
+
+@media screen and (max-width: 425px) {
+    .footer__copyright {
+        font-size: 14px;
+        line-height: 17px;
+    }
 }

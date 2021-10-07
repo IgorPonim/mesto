@@ -3,13 +3,13 @@
     border-bottom: 1px solid rgb(84, 84, 84, .7);
     width: 90%;
     margin: 5% auto auto;
-    height: 74px;
+    min-height: 74px;
 }
 
 @media screen and (max-width: 425px) {
     .header {
         width: 100%;
-        max-height: 58px;
+        min-height: 58px;
         margin-top: 28px;
     }
 }
