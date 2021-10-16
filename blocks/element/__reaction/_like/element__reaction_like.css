@@ -3,5 +3,5 @@
 }
 
 .element__reaction_like:hover {
-    opacity: 1;
+    opacity: .8;
 }
