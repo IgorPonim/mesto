@@ -30,7 +30,7 @@
       </section>
 
       <section class='elements'>
-        <article class='element'>
+        <!-- <article class='element'>
           <img class='element__image' alt='Красивая картинка' src='./images/kirill-pershin-1088404-unsplash.jpg'>
           <div class='element__description'>
             <h2 class='element__name'>Карачаевск</h2>
@@ -76,7 +76,24 @@
             <h2 class='element__name'>Карачаево - Черкесия</h2>
             <button type="button" class='element__reaction'></button>
           </div>
-        </article>
+        </article> -->
+
+
+
+        <template class='template'>
+          <article class='element'>
+            <img class='element__image' alt='Красивая картинка' src='./images/kirill-pershin-1088404-unsplash.jpg'>
+            <button type='submit' class='element__delete'></button>
+            <div class='element__description'>
+              <h2 class='element__name'>Карачаево - Черкесия</h2>
+              <button type="button" class='element__reaction'></button>
+
+            </div>
+        </template>
+
+
+
+
       </section>
     </main>
 
@@ -96,9 +113,29 @@
       </div>
     </div>
 
+    <div class='popup popup_type_element'>
+      <div class='popup__content'>
+        <button type="button" class='popup__close popup__close_type_element'></button>
+        <h3 class='popup__title'> Новое место</h3>
+        <form name='info' class='popup__form'>
+          <input name='place-name' required type='text' placeholder='Название'
+            class='popup__input popup__input_type_name-element'>
+          <input name='place-link' required type='text' placeholder='Ссылка на картинку'
+            class='popup__input popup__input_type_link'>
+          <button type='submit' class='popup__button popup__button_type_create'>Создать</button>
+        </form>
+      </div>
+    </div>
+
+    <div class='popup popup_type_image'>
+      <div class='image-container'><img class='popup__img' src=''>
+      <button type="button" class='popup__close popup__close_type_img'></button>
+      <p class='image-info'>1111111111111</p></div>
+    </div>
+
     <script src='./scripts/scripts.js'></script>
 
-  </div>
+    </img>
 </body>
 
 </html>
