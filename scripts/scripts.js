@@ -41,8 +41,8 @@ popup.addEventListener('mouseup', banana);
 
 
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////все что выше это ПР4
+//////////////////////////////////////////////////////////////////////////все что ниже это ПР5
 
 const initialCards = [
     {
@@ -74,18 +74,8 @@ const initialCards = [
 const elements = document.querySelector('.elements')
 const cardTemplate = document.querySelector('.template').content;
 
-//Сразу добавляем карточки при запуске страниці//
-//в исходном шаблоне свяжу характеристики  объектов с содержимым страницы и клонирую через cloneNode(тру). Можно циклом, но наставник запретил//
-/*initialCards.forEach((item) => {
-    const element = cardTemplate.querySelector('.element').cloneNode(true);
-    element.querySelector('.element__name').textContent = item.name;
-    element.querySelector('.element__image').src = item.link;
-    elements.append(element);
 
-});*/
-
-/*а можно и так*/
-initialCards.forEach(createElements);
+///Сразу добавляем карточки при запуске страниці//
 function createElements(La_Li_Lu_Le_Lo) {
     const element = cardTemplate.querySelector('.element').cloneNode(true);
     element.querySelector('.element__name').textContent = La_Li_Lu_Le_Lo.name;
@@ -100,26 +90,7 @@ function createElements(La_Li_Lu_Le_Lo) {
     element.querySelector('.element__image').addEventListener('click', popupOpenImage);
 
 };
-
-/*функция с удаление карточек, сделал так изначально*/
-/*function deletess(event) {
-    event.target.closest('.element').remove();
-    
-}
-Array.from(document.querySelectorAll('.element__delete')).forEach((el) => 
-el.addEventListener('click', deletess));*/
-
-
-/*функция с заменой сердечек сделал так изначально*/
-/*function heart(event) {
-    event.target.classList.toggle('element__reaction_like');
-    
-}
-/*сердечек много, нужен массив*/
-/*Array.from(document.querySelectorAll('.element__reaction')).forEach((el) => 
-el.addEventListener('click', heart));*/
-
-
+initialCards.forEach(createElements);
 
 //////////////////////////////////////////////////////
 //открываем и закрываем попап, по аналогии с тем, что касается профиля
@@ -138,16 +109,18 @@ function popupClosePlace() {
 addButtonPlace.addEventListener('click', popupOpenPlace);
 closeInfoCard.addEventListener('click', popupClosePlace);
 
+//закрываем попап не только по крестику
 function banana2(event) {
     if (event.target.classList.contains('popup')) {
         popupClosePlace();
     }
 }
-//закрываем попап не только по крестику
+
 addNewCard.addEventListener('mouseup', banana2);
 addNewCard.addEventListener('click', banana2);
-
-//начинаем создавать новые карточки
+////////////////////////////////////////
+////////////////////////////////////////
+//дадим пользователю возможность добавить карточки
 const nameOfNewElement = document.querySelector('.popup__input_type_name-element');
 const linkOfNewElement = document.querySelector('.popup__input_type_link');
 const elementReactionLike = document.querySelector('.element__reaction')
@@ -175,10 +148,10 @@ buttonToCreate.addEventListener('click', addNewElement)
 //////////////////////////////теперь последний попап с картинкой
 const imagePush = document.querySelector('.element__image');
 const showBigImage = document.querySelector('.popup_type_image');
-const imageInsidePopup = document.querySelector('.popup__img');
+const imageInsidePopup = document.querySelector('.image-container__img');
 const imageClosebutton = document.querySelector('.popup__close_type_img');
-const imageInformation = document.querySelector('.image-info')
-//создаю карточку
+const imageInformation = document.querySelector('.image-container__info')
+//создаю карточку и переношу в нее ссылки на картинки и прочие атрибуты
 function popupOpenImage(evt) {
     const showBigImage = document.querySelector('.popup_type_image');
     showBigImage.classList.add('popup_open');
@@ -190,9 +163,6 @@ function popupCloseLargeImage() {
     showBigImage.classList.remove('popup_open');
 }
 imageClosebutton.addEventListener('click', popupCloseLargeImage);
-//вешаю обработчик на все карточки
-/*Array.from(document.querySelectorAll('.element__image')).forEach((el) =>
-    el.addEventListener('click', popupOpenImage));*/
 
 
 

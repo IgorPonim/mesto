@@ -1,0 +1,15 @@
+.image-container {
+    width: 90%;
+    max-width: 816px;
+    height: 540px;
+    position: relative;
+    object-fit: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 425px) {
+    .image-container {
+        max-height: 300px;
+    }
+}
