@@ -1,4 +1,4 @@
-const popup = document.querySelector('.popup');
+const popupProfile = document.querySelector('.popup');
 const profileButtonInfo = document.querySelector('.profile__edit');
 const popupCloseButton = document.querySelector('.popup__close');
 const profileForm = document.querySelector('.popup__form');
@@ -7,36 +7,43 @@ const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.popup__input_type_job');
 const myStatus = document.querySelector('.profile__status');
 
-//вносим данные из профиля в поля ввода//
-function popupOpen() {
-    popup.classList.add('popup_open');
+//основыне функции - открыть и закрыть попап
+function popupOpen(evt) {
+    evt.classList.add('popup_open');
+}
+
+function popupClose(evt) { 
+    evt.classList.remove('popup_open') }
+
+function profileEditHandler() {
     nameInputValue.value = profileName.textContent;
     profileJob.value = myStatus.textContent;
+    popupOpen(popupProfile);
 }
-function popupClose() { popup.classList.remove('popup_open') }
-
-profileButtonInfo.addEventListener('click', popupOpen);
-popupCloseButton.addEventListener('click', popupClose);
+function profileCloseHandler() {
+    popupClose(popupProfile);
+}
+//обработчики событий
+profileButtonInfo.addEventListener('click', profileEditHandler);
+popupCloseButton.addEventListener('click', profileCloseHandler);
+profileForm.addEventListener('submit', handleProfileSubmit)
 
 /*переносим данные из полей ввода в профиль*/
 function handleProfileSubmit(event) {
     event.preventDefault()
     profileName.textContent = nameInputValue.value;
     myStatus.textContent = profileJob.value;
-    popupClose();
+    popupClose(popupProfile);
 }
 
-profileForm.addEventListener('submit', handleProfileSubmit)
-
-
-/*это чтобы закрывался попап не только после нажатия на крестик*/
+/*это чтобы закрывался попап не только после нажатия на крестик но и на оверлей*/
 function closePopupByOverlay(event) {
     if (event.target.classList.contains('popup')) {
-        popupClose();
+        popupClose(popupProfile);
         popupClosePlace();
     }
 }
-popup.addEventListener('click', closePopupByOverlay);
+popupProfile.addEventListener('click', closePopupByOverlay);
 
 
 
