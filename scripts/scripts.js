@@ -89,7 +89,7 @@ const cardTemplate = document.querySelector('.template').content;
 ///Сразу добавляем карточки при запуске страниці//
 initialCards.forEach(prependElements);
 
-function createElements(data) {
+function createElement(data) {
   const element = cardTemplate.querySelector('.element').cloneNode(true);
   element.querySelector('.element__name').textContent = data.name;
   element.querySelector('.element__image').src = data.link;
@@ -104,9 +104,9 @@ function createElements(data) {
   element.querySelector('.element__image').addEventListener('click', popupOpenImage);
   return element;
 };
-//////как же тяжело было эту конструкцию соорудить
+//////вывел в отдельную функцию, как вы сказали
 function prependElements(item) {
-  const element = createElements(item);
+  const element = createElement(item);
   elements.prepend(element)
 }
 
@@ -119,7 +119,7 @@ const newCard = document.querySelector('.popup_type_element');
 const closeButtonInfoCard = document.querySelector('.popup__close_type_element')
 
 function elementEditHandler() {
-  popupOpen(popupElement);//все как вы хотели))
+  popupOpen(popupElement);//
 }
 function elementCloseHandler() {
   popupClose(popupElement);
@@ -142,6 +142,7 @@ function addNewElement(event2) {
     name: nameOfNewElement.value,
     link: linkOfNewElement.value,
   }
+
   prependElements(newValues)
   event2.preventDefault()
   elementCloseHandler()
@@ -161,7 +162,8 @@ const imageInformation = document.querySelector('.image-container__info')
 function popupOpenImage(evt) {
   popupOpen(popupImage);
   imageInsidePopup.src = evt.target.src;
-  imageInformation.textContent = evt.target.parentElement.querySelector('.element__name').textContent;
+  /*imageInformation.textContent = evt.target.parentElement.querySelector('.element__name').textContent;*/
+  imageInformation.textContent = evt.target.alt
 }
 
 function ImageCloseHandler() {
