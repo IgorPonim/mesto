@@ -2,12 +2,12 @@ const popupProfile = document.querySelector('.popup_type_profile');
 const popupElement = document.querySelector('.popup_type_element');
 const popupImage = document.querySelector('.popup_type_image')
 const profileButtonInfo = document.querySelector('.profile__edit');
-const popupCloseButton = document.querySelector('.popup__close');
-const profileForm = document.querySelector('.popup__form');
+const popupCloseButton = document.querySelector('.popup__close_type_profile');
+const profileForm = document.querySelector('.popup__form_type_info');
 const nameInputValue = document.querySelector('.popup__input_type_name');
 const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.popup__input_type_job');
-const myStatus = document.querySelector('.profile__status');
+const jobInputValue = document.querySelector('.popup__input_type_job');
+const profileStatus = document.querySelector('.profile__status');
 
 //основыне функции - открыть и закрыть попап
 function popupOpen(evt) {
@@ -20,7 +20,7 @@ function popupClose(evt) {
 
 function profileEditHandler() {
   nameInputValue.value = profileName.textContent;
-  profileJob.value = myStatus.textContent;
+  jobInputValue.value = profileStatus.textContent;
   popupOpen(popupProfile);
 }
 function profileCloseHandler() {
@@ -35,7 +35,7 @@ profileForm.addEventListener('submit', handleProfileSubmit)
 function handleProfileSubmit(event) {
   event.preventDefault()
   profileName.textContent = nameInputValue.value;
-  myStatus.textContent = profileJob.value;
+  profileStatus.textContent = jobInputValue.value;
   popupClose(popupProfile);
 }
 
