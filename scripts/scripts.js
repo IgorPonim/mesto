@@ -9,13 +9,19 @@ const profileName = document.querySelector('.profile__name');
 const jobInputValue = document.querySelector('.popup__input_type_job');
 const profileStatus = document.querySelector('.profile__status');
 
-//основыне функции - открыть и закрыть попап
-function popupOpen(evt) {
-  evt.classList.add('popup_open');
+//я прошу прощения за то, что упорно не хочу менять эту структуру на константы/функции/обработчики,
+//потому что боюсь запутаться в своем коде, это первый опыт в js и иногда сам путаюсь что и где сделал
+// :-)
+//да и комментарии пишу для себя, любимого, чтобы не забыть//
+
+
+//основыне функции - открыть и закрыть попап//
+function popupOpen(popup) {
+  popup.classList.add('popup_open');
 }
 
-function popupClose(evt) {
-  evt.classList.remove('popup_open')
+function popupClose(popup) {
+  popup.classList.remove('popup_open')
 }
 
 function profileEditHandler() {
@@ -24,7 +30,7 @@ function profileEditHandler() {
   popupOpen(popupProfile);
 }
 function profileCloseHandler() {
-  popupClose(popupProfile); //все как вы хотели))
+  popupClose(popupProfile);
 }
 //обработчики событий
 profileButtonInfo.addEventListener('click', profileEditHandler);
@@ -39,17 +45,12 @@ function handleProfileSubmit(event) {
   popupClose(popupProfile);
 }
 
-/*это чтобы закрывался попап не только после нажатия на крестик но и на оверлей*/
-function closePopupByOverlay(event) {
-  if (event.target.classList.contains('popup')) {
-    popupClose(popupProfile);
-    elementCloseHandler(popupElement);
-    ImageCloseHandler(popupImage);
+//может быть я закрою все оверлеи таким способом?
+/*Array.from(document.querySelectorAll('.popup')).map(popup => popup.addEventListener('click', (evt) => {
+  if (evt.target.classList.contains('popup_open')) {
+    popupClose(popup);
   }
-}
-popupProfile.addEventListener('click', closePopupByOverlay);
-
-
+}));*/
 
 
 //////////////////////////////////////////////////////////////////////////все что выше это ПР4
@@ -87,13 +88,15 @@ const cardTemplate = document.querySelector('.template').content;
 
 
 ///Сразу добавляем карточки при запуске страниці//
-initialCards.forEach(prependElements);
 
+/*Array.from(initialCards).forEach((el) => prependElement(el));*///мне очень нравится эта конструкция, чувство иррациональное, потому искреннее//
+initialCards.forEach(prependElement);
 function createElement(data) {
   const element = cardTemplate.querySelector('.element').cloneNode(true);
+  const elementImage = element.querySelector('.element__image');
   element.querySelector('.element__name').textContent = data.name;
-  element.querySelector('.element__image').src = data.link;
-  element.querySelector('.element__image').alt = data.name;
+  elementImage.src = data.link;
+  elementImage.alt = data.name;
   element.querySelector('.element__delete').addEventListener('click', (ev) => {
     ev.target.closest('.element').remove()
   })
@@ -101,22 +104,20 @@ function createElement(data) {
     ev.target.classList.toggle('element__reaction_like')
   })
   /*elements.append(element);*/
-  element.querySelector('.element__image').addEventListener('click', popupOpenImage);
+  elementImage.addEventListener('click', popupOpenImage);
   return element;
 };
 //////вывел в отдельную функцию, как вы сказали
-function prependElements(item) {
+function prependElement(item) {
   const element = createElement(item);
   elements.prepend(element)
 }
 
 
-
 //////////////////////////////////////////////////////
 //открываем и закрываем попап, по аналогии с тем, что касается профиля
 const addButtonPlace = document.querySelector('.profile__add');
-const newCard = document.querySelector('.popup_type_element');
-const closeButtonInfoCard = document.querySelector('.popup__close_type_element')
+const infoCardCloseButton = document.querySelector('.popup__close_type_element')
 
 function elementEditHandler() {
   popupOpen(popupElement);//
@@ -125,9 +126,7 @@ function elementCloseHandler() {
   popupClose(popupElement);
 }
 addButtonPlace.addEventListener('click', elementEditHandler);
-closeButtonInfoCard.addEventListener('click', elementCloseHandler);
-//закрываем попап не только по крестику
-newCard.addEventListener('click', closePopupByOverlay);
+infoCardCloseButton.addEventListener('click', elementCloseHandler);
 
 ////////////////////////////////////////
 ////////////////////////////////////////
@@ -135,25 +134,23 @@ newCard.addEventListener('click', closePopupByOverlay);
 const nameOfNewElement = document.querySelector('.popup__input_type_name-element');
 const linkOfNewElement = document.querySelector('.popup__input_type_link');
 const elementReactionLike = document.querySelector('.element__reaction')
-//пользователь создаст свою карточку на основе шаблона из prependElements и будут внесены данные из формы
-function addNewElement(event2) {
+//пользователь создаст свою карточку на основе шаблона из prependElement и будут внесены данные из формы
+function addNewElement(event) {
 
   const newValues = {
     name: nameOfNewElement.value,
     link: linkOfNewElement.value,
   }
 
-  prependElements(newValues)
-  event2.preventDefault()
+  prependElement(newValues)
+  event.preventDefault()
   elementCloseHandler()
 };
 
-const buttonCreateCard = document.querySelector('.popup__button_type_create');
-const popupFormImage = document.querySelector('.popup__form_type_image');
-popupFormImage.addEventListener('submit', addNewElement)
+const formAddNewCard = document.querySelector('.popup__form_type_image');
+formAddNewCard.addEventListener('submit', addNewElement)
 
 //////////////////////////////теперь последний попап с картинкой
-
 
 const imageInsidePopup = document.querySelector('.image-container__img');
 const imageCloseButton = document.querySelector('.popup__close_type_img');
@@ -162,15 +159,17 @@ const imageInformation = document.querySelector('.image-container__info')
 function popupOpenImage(evt) {
   popupOpen(popupImage);
   imageInsidePopup.src = evt.target.src;
+  imageInsidePopup.alt = evt.target.alt;
   /*imageInformation.textContent = evt.target.parentElement.querySelector('.element__name').textContent;*/
   imageInformation.textContent = evt.target.alt
 }
 
-function ImageCloseHandler() {
+function imageCloseHandler() {
   popupClose(popupImage)
 }
-imageCloseButton.addEventListener('click', ImageCloseHandler);
-popupImage.addEventListener('click', closePopupByOverlay)
+imageCloseButton.addEventListener('click', imageCloseHandler);
+
+
 
 
 
