@@ -1,3 +1,4 @@
+
 const popupProfile = document.querySelector('.popup_type_profile');
 const popupElement = document.querySelector('.popup_type_element');
 const popupImage = document.querySelector('.popup_type_image')
@@ -9,20 +10,29 @@ const profileName = document.querySelector('.profile__name');
 const jobInputValue = document.querySelector('.popup__input_type_job');
 const profileStatus = document.querySelector('.profile__status');
 
-//я прошу прощения за то, что упорно не хочу менять эту структуру на константы/функции/обработчики,
-//потому что боюсь запутаться в своем коде, это первый опыт в js и иногда сам путаюсь что и где сделал
-// :-)
-//да и комментарии пишу для себя, любимого, чтобы не забыть//
 
 
-//основыне функции - открыть и закрыть попап//
+//основыне функции - открыть и закрыть попап плюс добавил/удалил обработчик на клавишу эскапе, по совету старшего студента//
 function popupOpen(popup) {
   popup.classList.add('popup_open');
+  document.addEventListener('keydown', closeByEscape)
 }
 
 function popupClose(popup) {
   popup.classList.remove('popup_open')
+  document.removeEventListener('keydown', closeByEscape)
 }
+
+function closeByEscape(evt) {
+
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_open')
+    popupClose(openedPopup)
+  }
+}
+
+
+
 
 function profileEditHandler() {
   nameInputValue.value = profileName.textContent;
@@ -45,12 +55,12 @@ function handleProfileSubmit(event) {
   popupClose(popupProfile);
 }
 
-//может быть я закрою все оверлеи таким способом?
-/*Array.from(document.querySelectorAll('.popup')).map(popup => popup.addEventListener('click', (evt) => {
+//Обошел все оверлеи добавил обработчик на клик, и дал функцию закрытия
+document.body.querySelectorAll('.popup').forEach(el => el.addEventListener('click', (evt) => {
   if (evt.target.classList.contains('popup_open')) {
-    popupClose(popup);
+    popupClose(el);
   }
-}));*/
+}));
 
 
 //////////////////////////////////////////////////////////////////////////все что выше это ПР4
@@ -58,28 +68,28 @@ function handleProfileSubmit(event) {
 
 const initialCards = [
   {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    name: 'Будапешт',
+    link: 'https://images.unsplash.com/photo-1549877452-9c387954fbc2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80'
   },
   {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    name: 'сингапур',
+    link: 'https://images.unsplash.com/flagged/photo-1562503542-2a1e6f03b16b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80'
   },
   {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    name: 'Токио',
+    link: 'https://images.unsplash.com/photo-1557409518-691ebcd96038?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80'
   },
   {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    name: 'Брисбен',
+    link: 'https://images.unsplash.com/photo-1566734904496-9309bb1798ae?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=871&q=80'
   },
   {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    name: 'Рим',
+    link: 'https://images.unsplash.com/photo-1531572753322-ad063cecc140?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=876&q=80'
   },
   {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    name: 'cевасТОполь',
+    link: 'https://travelvesti.ru/images/2020/Oct2020/08/_YVN6735.jpg'
   }
 ];
 //теперь я выберу исходную секцию, куда добавляю карточки, ну и шаблон/темплате
@@ -94,9 +104,9 @@ initialCards.forEach(prependElement);
 function createElement(data) {
   const element = cardTemplate.querySelector('.element').cloneNode(true);
   const elementImage = element.querySelector('.element__image');
-  element.querySelector('.element__name').textContent = data.name;
+  element.querySelector('.element__name').textContent = data.name.slice(0, 1).toUpperCase() + data.name.slice(1).toLowerCase();//сделал чтобы названия новых карточек всегда были с заглавной
   elementImage.src = data.link;
-  elementImage.alt = data.name;
+  elementImage.alt = data.name.slice(0, 1).toUpperCase() + data.name.slice(1).toLowerCase();
   element.querySelector('.element__delete').addEventListener('click', (ev) => {
     ev.target.closest('.element').remove()
   })
@@ -162,12 +172,16 @@ function popupOpenImage(evt) {
   imageInsidePopup.alt = evt.target.alt;
   /*imageInformation.textContent = evt.target.parentElement.querySelector('.element__name').textContent;*/
   imageInformation.textContent = evt.target.alt
+
+
 }
 
 function imageCloseHandler() {
   popupClose(popupImage)
 }
 imageCloseButton.addEventListener('click', imageCloseHandler);
+
+
 
 
 
