@@ -21,11 +21,11 @@
       <section class='profile'>
         <div class='profile__avatars'></div>
         <div class='profile__infos'>
-          <h1 class='profile__name'>Жак-Ив Кусто</h1>
-          <button type="button" class='profile__edit'></button>
-          <p class='profile__status'>Исследователь океана</p>
+          <h1 class='profile__name'>Лео Ди Каприо</h1>
+          <button type='button' class='profile__edit'></button>
+          <p class='profile__status'>Обладатель Оскара</p>
         </div>
-        <button type="button" class='profile__add'></button>
+        <button type='button' class='profile__add'></button>
       </section>
 
       <section class='elements'>
@@ -33,7 +33,7 @@
           <img class='element__image' alt='Красивая картинка' src='./images/kirill-pershin-1088404-unsplash.jpg'>
           <div class='element__description'>
             <h2 class='element__name'>Карачаевск</h2>
-            <button type="button" class='element__reaction'></button>
+            <button type='button' class='element__reaction'></button>
           </div>
         </article> -->
 
@@ -43,7 +43,7 @@
             <button type='submit' class='element__delete'></button>
             <div class='element__description'>
               <h2 class='element__name'>Карачаево - Черкесия</h2>
-              <button type="button" class='element__reaction'></button>
+              <button type='button' class='element__reaction'></button>
             </div>
           </article>
         </template>
@@ -57,11 +57,13 @@
 
     <div class='popup popup_type_profile'>
       <div class='popup__content'>
-        <button type="button" class='popup__close popup__close_type_profile'></button>
+        <button type='button' class='popup__close popup__close_type_profile'></button>
         <h3 class='popup__title'> Редактировать профиль</h3>
         <form name='info' class='popup__form popup__form_type_info'>
-          <input name='name' required type='text' placeholder='Имя' class='popup__input popup__input_type_name'>
-          <input name='job' required type='text' placeholder='Род занятий' class='popup__input popup__input_type_job'>
+          <input name='name' minlength='2' maxlength='40' required type='text' placeholder='Имя' class='popup__input popup__input_type_name'>
+          <span class='popup__err popup-username-err'>Вы пропустили это поле</span>
+          <input name='job'  minlength='2' maxlength='200' required type='text' placeholder='Род занятий' class='popup__input popup__input_type_job'>
+          <span class='popup__err popup-job-err'>Вы пропустили это поле</span>
           <button type='submit' class='popup__button'>Сохранить</button>
         </form>
       </div>
@@ -69,13 +71,15 @@
 
     <div class='popup popup_type_element'>
       <div class='popup__content'>
-        <button type="button" class='popup__close popup__close_type_element'></button>
+        <button type='button' class='popup__close popup__close_type_element'></button>
         <h3 class='popup__title'> Новое место</h3>
         <form name='info' class='popup__form  popup__form_type_image'>
-          <input name='place-name' required type='text' placeholder='Название'
+          <input name='place-name' minlength='2' maxlength='40' required type='text' placeholder='Название'
             class='popup__input popup__input_type_name-element'>
+            <span class='popup__err popup-element-err'>Вы пропустили это поле</span>
           <input name='place-link' type='url' required placeholder='Ссылка на картинку'
             class='popup__input popup__input_type_link'>
+            <span class='popup__err popup-link-err'>Вы пропустили это поле</span>
           <button type='submit' class='popup__button popup__button_type_create'>Создать</button>
         </form>
       </div>
@@ -83,13 +87,14 @@
 
     <div class='popup popup_type_image'>
       <div class='image-container'><img class='image-container__img' src='./' alt='Красивая картинка'>
-        <button type="button" class='popup__close popup__close_type_img'></button>
+        <button type='button' class='popup__close popup__close_type_img'></button>
         <p class='image-container__info'>1111111111111</p>
       </div>
     </div>
 
   </div>
   <script src='./scripts/scripts.js'></script>
+  <script src='./scripts/validate.js'></script>
 </body>
 
 </html>

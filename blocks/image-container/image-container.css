@@ -1,15 +1,13 @@
 .image-container {
-    width: 90%;
-    max-width: 816px;
-    height: 540px;
-    position: relative;
-    object-fit: inherit;
-    display: flex;
-    flex-direction: column;
+  position: relative;
+  object-fit: inherit;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
 }
 
 @media screen and (max-width: 425px) {
-    .image-container {
-        max-height: 300px;
-    }
+  .image-container {
+    max-height: 300px;
+  }
 }
