@@ -33,40 +33,16 @@
 @import url('../blocks/image-container/image-container.css');
 @import url('../blocks/image-container/__img/image-container__img.css');
 @import url('../blocks/image-container/__info/image-container__info.css');
-.popup__error {
-  margin: 0;
-  min-height:30px;
-  color: red;
-  padding: 0;
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 15px;
-  display: none;
-  max-width: 310px;
-}
+@import url('../blocks/popup/__error/popup__error.css');
+@import url('../blocks/popup/__button/_disabled/popup__button_disabled.css');
+@import url('../blocks/popup/__input/_type_error/popup__input_type_error.css');
+@import url('../blocks/popup/__error/_visible/popup__error_visible.css');
 
-.popup__button_disabled {
-  border: 1px solid #000;
-  background-color: #fff;
-  color: #000000;
-  cursor: pointer;
-  opacity: 50%;
-}
 
-.popup__error_visible {
-  display: inline-block;
-}
 
-.popup__input_type_error {
-  border-color: #f00;
-}
 
-.popup__error {
-  color: red;
-  display: inherit
-}
+
+
 
 
 
