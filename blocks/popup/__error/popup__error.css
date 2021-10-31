@@ -8,7 +8,6 @@
   font-weight: normal;
   font-size: 12px;
   line-height: 15px;
-  display: none;
   max-width: 310px;
-  display: inherit
+  opacity: 0;
 }
