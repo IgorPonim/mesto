@@ -9,6 +9,7 @@ const nameInputValue = document.querySelector('.popup__input_type_name');
 const profileName = document.querySelector('.profile__name');
 const jobInputValue = document.querySelector('.popup__input_type_job');
 const profileStatus = document.querySelector('.profile__status');
+const popupButton = document.querySelector('.popup__button')
 
 
 
@@ -35,13 +36,21 @@ function closeByEscape(evt) {
 
 
 function profileEditHandler() {
+
   nameInputValue.value = profileName.textContent;
   jobInputValue.value = profileStatus.textContent;
   popupOpen(popupProfile);
+
+  nameInputValue.dispatchEvent(new Event('input'));
+  jobInputValue.dispatchEvent(new Event('input'));
+  popupButton.classList.remove('popup__button_disabled')
+  popupButton.removeAttribute('disabled')//сбрасываю настройки при открытии попапа до дефолта
 }
 function profileCloseHandler() {
   popupClose(popupProfile);
 }
+
+
 //обработчики событий
 profileButtonInfo.addEventListener('click', profileEditHandler);
 popupCloseButton.addEventListener('click', profileCloseHandler);
@@ -128,9 +137,16 @@ function prependElement(item) {
 //открываем и закрываем попап, по аналогии с тем, что касается профиля
 const addButtonPlace = document.querySelector('.profile__add');
 const infoCardCloseButton = document.querySelector('.popup__close_type_element')
+const popupButtonToCreateNewElement = document.querySelector('.popup__button_type_create')
 
 function elementEditHandler() {
   popupOpen(popupElement);//
+  nameOfNewElement.value = ''
+  linkOfNewElement.value = ''
+  nameOfNewElement.dispatchEvent(new Event('input'));
+  linkOfNewElement.dispatchEvent(new Event('input'));
+  popupButtonToCreateNewElement.classList.add('popup__button_disabled');
+
 }
 function elementCloseHandler() {
   popupClose(popupElement);
