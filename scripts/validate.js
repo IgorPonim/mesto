@@ -15,54 +15,53 @@ function enableValidation(validationConfig) {
 }
 
 //устанавливаю слушателей для инпутов
-function setFormListeners(form, config) {
-  const inputs = [...form.querySelectorAll(config.inputSelector)]
+function setFormListeners(form, validationConfig) {
+  const inputs = [...form.querySelectorAll(validationConfig.inputSelector)]
 
-  inputs.forEach(el => {
-    el.addEventListener('input', () =>
-      handlerFielValidation(el, form, config))
+  inputs.forEach(input => {
+    input.addEventListener('input', () =>
+      handlerFielValidation(input, form, validationConfig))
 
-    form.addEventListener('input', () => toggleButtonState(form, config))
+    form.addEventListener('input', () => toggleButtonState(form, validationConfig))
 
   })
 }
-//создаю функцию работы/неработы кнопки, в зависимости от статуса валидации инпутов
-function toggleButtonState(form, config) {
 
-  const button = form.querySelector(config.submitButtonSelector)
+//создаю функцию показа/скрытия ошибок
+function handlerFielValidation(input, form, validationConfig) {
+  if (!input.validity.valid) {
+    showErrorMessage(input, form, validationConfig)
+  }
+  else {
+    hideErrorMessage(input, form, validationConfig);
+  }
+}
+
+//создаю функцию работы/неработы кнопки, в зависимости от статуса валидации инпутов
+function toggleButtonState(form, validationConfig) {
+
+  const button = form.querySelector(validationConfig.submitButtonSelector)
   button.disabled = form.checkValidity();//вернет true если пройдет проверку
 
-  button.classList.toggle(config.inactiveButtonClass, !form.checkValidity())//если валидация false меняет класс на белую кнопку
+  button.classList.toggle(validationConfig.inactiveButtonClass, !form.checkValidity())//если валидация false меняет класс на белую кнопку
   button.toggleAttribute('disabled');
 
 }
 
-
-//создаю функцию показа/скрытия ошибок
-function handlerFielValidation(input, form, config) {
-  if (!input.validity.valid) {
-    showErrorMessage(input, form, config)
-  }
-  else {
-    hideErrorMessage(input, form, config);
-  }
-}
-
-
 //функция описания содержимого ошибки, через добавление класса
-function showErrorMessage(input, form, config) {
+function showErrorMessage(input, form, validationConfig) {
   const errorElement = form.querySelector(`#${input.id}-error`);//нашел свои span-ы
-  input.classList.add(config.inputErrorClass)
+  input.classList.add(validationConfig.inputErrorClass)
   errorElement.textContent = input.validationMessage//беру стандартный текст, который дает браузер
-  errorElement.classList.add(config.errorClass);
+  errorElement.classList.add(validationConfig.errorClass);
 
 
 }
-function hideErrorMessage(input, form, config) {
+function hideErrorMessage(input, form, validationConfig) {
   const errorElement = form.querySelector(`#${input.id}-error`);
-  input.classList.remove(config.inputErrorClass)
+  input.classList.remove(validationConfig.inputErrorClass)
   errorElement.textContent = ''
-  errorElement.classList.remove(config.errorClass);
+  errorElement.classList.remove(validationConfig.errorClass);
 
 }
 
