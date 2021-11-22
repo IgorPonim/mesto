@@ -2,6 +2,8 @@ export class FormValidator {
   constructor(validationConfig, form) {
     this._form = form;
     this._validationConfig = validationConfig;
+    this._inputList = [...this._form.querySelectorAll(this._validationConfig.inputSelector)]
+    this._submitButton = this._form.querySelector(this._validationConfig.submitButtonSelector)
   }
 
 
@@ -28,11 +30,10 @@ export class FormValidator {
     inputError.classList.remove(this._validationConfig.errorClass);
   }
 
-  //выбрал всеинпуты и повесил на них проверку валидации
+  //выбрал инпуты в конструкторе, пусть будет так
   _setFormListeners() {
-    const inputs = [...this._form.querySelectorAll(this._validationConfig.inputSelector)]
 
-    inputs.forEach(input => {
+    this._inputList.forEach(input => {
       input.addEventListener('input', () =>
         this._checkInputValidity(input))
     })
@@ -42,17 +43,24 @@ export class FormValidator {
 
 
   _toggleButtonState() {
-    const button = this._form.querySelector(this._validationConfig.submitButtonSelector)
-    button.disabled = this._form.checkValidity();//вернет true если пройдет проверку
-    button.classList.toggle(this._validationConfig.inactiveButtonClass, !this._form.checkValidity())//если валидация false меняет класс на белую кнопку
-    button.toggleAttribute('disabled');
+    this._submitButton.disabled = this._form.checkValidity();//вернет true если пройдет проверку
+    this._submitButton.classList.toggle(this._validationConfig.inactiveButtonClass, !this._form.checkValidity())//если валидация false меняет класс на белую кнопку
+    this._submitButton.toggleAttribute('disabled');
+  }
+  //мне кажется это публичный метод
+  resetValidation() {
+    /* сделал по вашему совету, норм*/
+    this._inputList.forEach((input) => {
+      const inputError = this._form.querySelector(`#${input.id}-error`);
+      this._hideInputError(input, inputError);
+    });
+    this._toggleButtonState();
   }
 
+
+  //вадидация установит слушатели
   enableValidation() {
-
     this._setFormListeners()
-    this._toggleButtonState()
-
   }
 
 }

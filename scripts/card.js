@@ -5,7 +5,10 @@ export class Card {
     this._name = data.name,
       this._link = data.link,
       this._template = template;
-  }
+    this._popupImage = document.querySelector('.popup_type_image');
+    this._imageInsidePopup = this._popupImage.querySelector('.image-container__img');
+    this._imageInformation = this._popupImage.querySelector('.image-container__info')
+  }// перенес в конструктор константы, как мы и сказали
 
   //выбрал свой шаблон
   _getTemplate() {
@@ -14,9 +17,6 @@ export class Card {
 
   //открываю попап с картинкой
   _popupOpenImage() {
-    this._popupImage = document.querySelector('.popup_type_image');
-    this._imageInsidePopup = this._popupImage.querySelector('.image-container__img');
-    this._imageInformation = this._popupImage.querySelector('.image-container__info')
     this._imageInsidePopup.src = this._link
     this._imageInformation.textContent = this._name
     this._imageInsidePopup.alt = this._name
@@ -40,6 +40,6 @@ export class Card {
     this._mainTemplate.querySelector('.element__delete').addEventListener('click', (ev) => {
       ev.target.closest('.element').remove()
     })
-    this._mainTemplate.querySelector('.element__image').addEventListener('click', () => { this._popupOpenImage() })
+    this._elementImage.addEventListener('click', () => { this._popupOpenImage() })
   }
 }
