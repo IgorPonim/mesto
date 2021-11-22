@@ -36,29 +36,29 @@ const formAddNewCard = document.querySelector('.popup__form_type_image');
 const imageInsidePopup = document.querySelector('.image-container__img');
 const imageCloseButton = document.querySelector('.popup__close_type_img');
 const imageInformation = document.querySelector('.image-container__info')
-
+const popups = document.querySelectorAll('.popup')
 
 
 //импортировал класс карточек и использовал единственный публичный метод чтобы их отрисовать
 import { Card } from './card.js';
-import {FormValidator} from './validate.js'
+import { FormValidator } from './validate.js'
 function createElements(item) {
   const card = new Card(item, '.template');
-  elements.prepend(card.createElement());
+  return card.createElement();//я надеюсь вас правильно понял?
 }
-initialCards.forEach((el)=>{
-  createElements(el)
+initialCards.forEach((el) => {
+  elements.prepend(createElements(el))
 })
 ///////////////////////////////////////////////////////
 //импортировал класс валидации и через публичный метод повесил слушатели, надеюсь это правильно
 
 const validationConfig = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible',
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible',
 }
 
 const addFormValidationImage = new FormValidator(validationConfig, formAddNewCard);
@@ -93,14 +93,9 @@ function profileEditHandler() {
   nameInputValue.value = profileName.textContent;
   jobInputValue.value = profileStatus.textContent;
   popupOpen(popupProfile);
-  nameInputValue.dispatchEvent(new Event('input'));
-  jobInputValue.dispatchEvent(new Event('input'));
-  popupButton.classList.remove('popup__button_disabled')
-  popupButton.removeAttribute('disabled')//сбрасываю настройки при открытии попапа до дефолта
+  addFormValidationProfile.resetValidation()//еще один публичный метод
 }
-function profileCloseHandler() {
-  popupClose(popupProfile);
-}
+
 
 function handleProfileSubmit(event) {
   event.preventDefault()
@@ -109,11 +104,7 @@ function handleProfileSubmit(event) {
   popupClose(popupProfile);
 }
 
-document.body.querySelectorAll('.popup').forEach(el => el.addEventListener('click', (evt) => {
-  if (evt.target.classList.contains('popup_open')) {
-    popupClose(el);
-  }
-}));
+
 
 function elementEditHandler() {
   popupOpen(popupElement);
@@ -121,65 +112,37 @@ function elementEditHandler() {
   linkOfNewElement.value = ''
   /*nameOfNewElement.dispatchEvent(new Event('input'));
   linkOfNewElement.dispatchEvent(new Event('input'));*/
-  document.getElementById('input-element-name-error').innerHTML=''//короче мне сделал ревьювер замечание что при откртии
-  document.getElementById('input-element-link-error').innerHTML=''//не сбрасываются ошибки, порекомендовал resetForm
-  document.getElementById('input-element-name').style.borderColor= 'rgba(0, 0, 0, .2)'//но я пошел другим путем :-р
-  document.getElementById('input-element-link').style.borderColor= 'rgba(0, 0, 0, .2)'
-  popupButtonToCreateNewElement.classList.add('popup__button_disabled');
-}
-function elementCloseHandler() {
-  popupClose(popupElement);
+  addFormValidationImage.resetValidation() //аналогично и для этой формы
 }
 
 
-function imageCloseHandler() {
-  popupClose(popupImage)
-}
-
-/*этот код был преобразован в класс
-function createElement(data) {
-  const element = cardTemplate.querySelector('.element').cloneNode(true);
-  const elementImage = element.querySelector('.element__image');
-  element.querySelector('.element__name').textContent = data.name.slice(0, 1).toUpperCase() + data.name.slice(1).toLowerCase();//сделал чтобы названия новых карточек всегда были с заглавной
-  elementImage.src = data.link;
-  elementImage.alt = data.name.slice(0, 1).toUpperCase() + data.name.slice(1).toLowerCase();
-  element.querySelector('.element__delete').addEventListener('click', (ev) => {
-    ev.target.closest('.element').remove()
-  })
-  element.querySelector('.element__reaction').addEventListener('click', (ev) => {
-    ev.target.classList.toggle('element__reaction_like')
-  })
-  /*elements.append(element);
-  elementImage.addEventListener('click', popupOpenImage);
-  return element;
-};
-
-function prependElement(item) {
-  const element = createElement(item);
-  elements.prepend(element)
-}
-*/
 function addNewElement(event) {
 
   const newValues = {
     name: nameOfNewElement.value,
     link: linkOfNewElement.value,
   }
-  createElements(newValues)//использовал импортируемую функцию из класса кард
+  elements.prepend(createElements(newValues))//переделал
   event.preventDefault()
-  elementCloseHandler()
+  popupClose(popupElement)
 };
 
-
-
+//мне понравилось, как я сам не додумался?:)
+popups.forEach((popup) => {
+  popup.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains('popup_open')) {
+      popupClose(popup)
+    }
+    if (evt.target.classList.contains('popup__close')) {
+      popupClose(popup)
+    }
+  })
+})
 
 //обработчики событий
 profileButtonInfo.addEventListener('click', profileEditHandler);
-popupCloseButton.addEventListener('click', profileCloseHandler);
 profileForm.addEventListener('submit', handleProfileSubmit)
-imageCloseButton.addEventListener('click', imageCloseHandler);
 addButtonPlace.addEventListener('click', elementEditHandler);
-infoCardCloseButton.addEventListener('click', elementCloseHandler);
 formAddNewCard.addEventListener('submit', addNewElement)
 
 /////////
