@@ -37,7 +37,7 @@
           </div>
         </article> -->
 
-        <template class='template'>
+        <template id='template' class='template'>
           <article class='element'>
             <img class='element__image' alt='Красивая картинка' src='./images/kirill-pershin-1088404-unsplash.jpg'>
             <button type='submit' class='element__delete'></button>
@@ -65,7 +65,7 @@
           <span id='input-name-error' class='popup__error popup-username-error'></span>
           <input id='input-job' name='job' minlength='2' maxlength='200' required type='text' placeholder='Род занятий'
             class='popup__input popup__input_type_job'>
-          <span id='input-job-error' class='popup__error popup-job-err '></span>
+          <span id='input-job-error' class='popup__error popup-job-error '></span>
           <button type='submit' class='popup__button'>Сохранить</button>
         </form>
       </div>
@@ -95,8 +95,9 @@
     </div>
 
   </div>
-  <script src='./scripts/scripts.js'></script>
-  <script src='./scripts/validate.js'></script>
+
+  <script type='module' src='./scripts/scripts.js'></script>
+
 </body>
 
 </html>
