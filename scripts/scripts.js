@@ -11,12 +11,18 @@ const jobInputValue = document.querySelector('.popup__input_type_job');
 const profileStatus = document.querySelector('.profile__status');
 const popupButton = document.querySelector('.popup__button');
 
-const initialCards = [{name: 'Будапешт',link: 'https://images.unsplash.com/photo-1549877452-9c387954fbc2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80'
-  },{name: 'сингапур',link: 'https://images.unsplash.com/flagged/photo-1562503542-2a1e6f03b16b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80'
-  },{name: 'Токио',link: 'https://images.unsplash.com/photo-1557409518-691ebcd96038?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80'
-  },{name: 'Брисбен',link: 'https://images.unsplash.com/photo-1566734904496-9309bb1798ae?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=871&q=80'
-  },{name: 'Рим',link: 'https://images.unsplash.com/photo-1531572753322-ad063cecc140?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=876&q=80'
-  },{name: 'cевасТОполь',link: 'https://travelvesti.ru/images/2020/Oct2020/08/_YVN6735.jpg'}];
+const initialCards = [{
+  name: 'Будапешт', link: 'https://images.unsplash.com/photo-1549877452-9c387954fbc2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80'
+}, {
+  name: 'Сингапур', link: 'https://images.unsplash.com/flagged/photo-1562503542-2a1e6f03b16b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80'
+}, {
+  name: 'Токио', link: 'https://images.unsplash.com/photo-1557409518-691ebcd96038?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80'
+}, {
+  name: 'Брисбен', link: 'https://images.unsplash.com/photo-1566734904496-9309bb1798ae?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=871&q=80'
+}, {
+  name: 'Рим', link: 'https://images.unsplash.com/photo-1531572753322-ad063cecc140?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=876&q=80'
+}, { name: 'Севастополь', link: 'https://travelvesti.ru/images/2020/Oct2020/08/_YVN6735.jpg' }];
+
 
 const elements = document.querySelector('.elements')
 const cardTemplate = document.querySelector('.template').content;
@@ -33,12 +39,45 @@ const imageInformation = document.querySelector('.image-container__info')
 
 
 
-function popupOpen(popup) {
+//импортировал класс карточек и использовал единственный публичный метод чтобы их отрисовать
+import { Card } from './card.js';
+import {FormValidator} from './validate.js'
+function createElements(item) {
+  const card = new Card(item, '.template');
+  elements.prepend(card.createElement());
+}
+initialCards.forEach((el)=>{
+  createElements(el)
+})
+///////////////////////////////////////////////////////
+//импортировал класс валидации и через публичный метод повесил слушатели, надеюсь это правильно
+
+const validationConfig = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible',
+}
+
+const addFormValidationImage = new FormValidator(validationConfig, formAddNewCard);
+const addFormValidationProfile = new FormValidator(validationConfig, profileForm);
+
+
+addFormValidationImage.enableValidation();
+addFormValidationProfile.enableValidation();
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+export function popupOpen(popup) {
   popup.classList.add('popup_open');
   document.addEventListener('keydown', closeByEscape)
 }
 
-function popupClose(popup) {
+export function popupClose(popup) {
   popup.classList.remove('popup_open')
   document.removeEventListener('keydown', closeByEscape)
 }
@@ -80,24 +119,24 @@ function elementEditHandler() {
   popupOpen(popupElement);
   nameOfNewElement.value = ''
   linkOfNewElement.value = ''
+  /*nameOfNewElement.dispatchEvent(new Event('input'));
+  linkOfNewElement.dispatchEvent(new Event('input'));*/
+  document.getElementById('input-element-name-error').innerHTML=''//короче мне сделал ревьювер замечание что при откртии
+  document.getElementById('input-element-link-error').innerHTML=''//не сбрасываются ошибки, порекомендовал resetForm
+  document.getElementById('input-element-name').style.borderColor= 'rgba(0, 0, 0, .2)'//но я пошел другим путем :-р
+  document.getElementById('input-element-link').style.borderColor= 'rgba(0, 0, 0, .2)'
   popupButtonToCreateNewElement.classList.add('popup__button_disabled');
 }
 function elementCloseHandler() {
   popupClose(popupElement);
 }
 
-function popupOpenImage(evt) {
-  popupOpen(popupImage);
-  imageInsidePopup.src = evt.target.src;
-  imageInsidePopup.alt = evt.target.alt;
-  imageInformation.textContent = evt.target.alt
-}
 
 function imageCloseHandler() {
   popupClose(popupImage)
 }
 
-
+/*этот код был преобразован в класс
 function createElement(data) {
   const element = cardTemplate.querySelector('.element').cloneNode(true);
   const elementImage = element.querySelector('.element__image');
@@ -110,7 +149,7 @@ function createElement(data) {
   element.querySelector('.element__reaction').addEventListener('click', (ev) => {
     ev.target.classList.toggle('element__reaction_like')
   })
-  /*elements.append(element);*/
+  /*elements.append(element);
   elementImage.addEventListener('click', popupOpenImage);
   return element;
 };
@@ -119,14 +158,14 @@ function prependElement(item) {
   const element = createElement(item);
   elements.prepend(element)
 }
-
+*/
 function addNewElement(event) {
 
   const newValues = {
     name: nameOfNewElement.value,
     link: linkOfNewElement.value,
   }
-  prependElement(newValues)
+  createElements(newValues)//использовал импортируемую функцию из класса кард
   event.preventDefault()
   elementCloseHandler()
 };
@@ -144,8 +183,4 @@ infoCardCloseButton.addEventListener('click', elementCloseHandler);
 formAddNewCard.addEventListener('submit', addNewElement)
 
 /////////
-
-initialCards.forEach(prependElement);
-
-
 

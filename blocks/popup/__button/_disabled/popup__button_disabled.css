@@ -7,5 +7,5 @@
 }
 
 .popup__button_disabled:hover {
-  cursor: default;
+  cursor: not-allowed;
 }
