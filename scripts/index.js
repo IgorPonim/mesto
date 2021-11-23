@@ -40,8 +40,8 @@ const popups = document.querySelectorAll('.popup')
 
 
 //импортировал класс карточек и использовал единственный публичный метод чтобы их отрисовать
-import { Card } from './card.js';
-import { FormValidator } from './validate.js'
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js'
 function createElements(item) {
   const card = new Card(item, '.template');
   return card.createElement();//я надеюсь вас правильно понял?
