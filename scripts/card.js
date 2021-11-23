@@ -1,5 +1,5 @@
-import { popupOpen } from './scripts.js';
-//конструктор содержит в себе шаблон и настройки
+import { popupOpen } from './index.js';//если позволите я не буду тут пока заморачиваться и так голова пухнет..
+
 export class Card {
   constructor(data, template) {
     this._name = data.name,
