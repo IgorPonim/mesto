@@ -24,6 +24,7 @@ const initialCards = [{
 }, { name: 'Севастополь', link: 'https://travelvesti.ru/images/2020/Oct2020/08/_YVN6735.jpg' }];
 
 
+
 const elements = document.querySelector('.elements')
 const cardTemplate = document.querySelector('.template').content;
 const addButtonPlace = document.querySelector('.profile__add');
@@ -39,18 +40,8 @@ const imageInformation = document.querySelector('.image-container__info')
 const popups = document.querySelectorAll('.popup')
 
 
-//импортировал класс карточек и использовал единственный публичный метод чтобы их отрисовать
 import { Card } from './card.js';
 import { FormValidator } from './FormValidator.js'
-function createElements(item) {
-  const card = new Card(item, '.template');
-  return card.createElement();//я надеюсь вас правильно понял?
-}
-initialCards.forEach((el) => {
-  elements.prepend(createElements(el))
-})
-///////////////////////////////////////////////////////
-//импортировал класс валидации и через публичный метод повесил слушатели, надеюсь это правильно
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -70,6 +61,25 @@ addFormValidationProfile.enableValidation();
 
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
+
+import { Section } from './section.js';
+function createElements(item) {//это просто взрыв мозга, как же тяжело быть программистом
+  const card = new Card(item, '.template');//спасибо наставникам, что слёзы вытирают
+ return section.additem(card.createElement()); //лучше уж кассиром в пятерочке
+}// короче в предыдущей пр7 была у меня функция createElements которая возвращала вызов метода из
+//card, а теперь возвращает метод в классе section которому передается метод в классе card ааааааа!!
+//сразу почему то вспоминаются мемы с xzibit //
+
+const section = new Section(
+  {
+    items: initialCards,
+    renderer: createElements,
+  },
+  elements
+)
+
+section.renderer()//
+
 
 
 export function popupOpen(popup) {
@@ -93,7 +103,7 @@ function profileEditHandler() {
   nameInputValue.value = profileName.textContent;
   jobInputValue.value = profileStatus.textContent;
   popupOpen(popupProfile);
-  addFormValidationProfile.resetValidation()//еще один публичный метод
+  addFormValidationProfile.resetValidation()
 }
 
 
@@ -112,7 +122,7 @@ function elementEditHandler() {
   linkOfNewElement.value = ''
   /*nameOfNewElement.dispatchEvent(new Event('input'));
   linkOfNewElement.dispatchEvent(new Event('input'));*/
-  addFormValidationImage.resetValidation() //аналогично и для этой формы
+  addFormValidationImage.resetValidation()
 }
 
 
@@ -122,12 +132,12 @@ function addNewElement(event) {
     name: nameOfNewElement.value,
     link: linkOfNewElement.value,
   }
-  elements.prepend(createElements(newValues))//переделал
+  createElements(newValues)//переделал
   event.preventDefault()
   popupClose(popupElement)
 };
 
-//мне понравилось, как я сам не додумался?:)
+
 popups.forEach((popup) => {
   popup.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('popup_open')) {

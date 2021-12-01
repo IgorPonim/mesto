@@ -34,8 +34,7 @@ export class FormValidator {
   _setFormListeners() {
 
     this._inputList.forEach(input => {
-      input.addEventListener('input', () =>
-        this._checkInputValidity(input))
+      input.addEventListener('input', () => this._checkInputValidity(input))
     })
 
     this._form.addEventListener('input', () => this._toggleButtonState())
