@@ -82,22 +82,7 @@ section.renderer()//
 
 
 
-export function popupOpen(popup) {
-  popup.classList.add('popup_open');
-  document.addEventListener('keydown', closeByEscape)
-}
 
-export function popupClose(popup) {
-  popup.classList.remove('popup_open')
-  document.removeEventListener('keydown', closeByEscape)
-}
-
-function closeByEscape(evt) {
-  if (evt.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_open')
-    popupClose(openedPopup)
-  }
-}
 
 function profileEditHandler() {
   nameInputValue.value = profileName.textContent;
@@ -138,16 +123,7 @@ function addNewElement(event) {
 };
 
 
-popups.forEach((popup) => {
-  popup.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('popup_open')) {
-      popupClose(popup)
-    }
-    if (evt.target.classList.contains('popup__close')) {
-      popupClose(popup)
-    }
-  })
-})
+
 
 //обработчики событий
 profileButtonInfo.addEventListener('click', profileEditHandler);
