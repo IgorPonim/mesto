@@ -1,4 +1,4 @@
-import { popupOpen } from './index.js';//если позволите я не буду тут пока заморачиваться и так голова пухнет..
+/*import { popupOpen } from './index.js';*///если позволите я не буду тут пока заморачиваться и так голова пухнет..
 
 export class Card {
   constructor(data, template) {
