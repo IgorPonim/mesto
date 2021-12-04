@@ -8,15 +8,15 @@ export class Card {
     this._popupImage = document.querySelector('.popup_type_image');
     this._imageInsidePopup = this._popupImage.querySelector('.image-container__img');
     this._imageInformation = this._popupImage.querySelector('.image-container__info')
-    this._handleCardClick  = handleCardClick
-  }// перенес в конструктор константы, как мы и сказали
+    this._handleCardClick  = handleCardClick//это просто метод popup.open, который работает через стрелочную функцию....
+  }
 
   //выбрал свой шаблон
   _getTemplate() {
     return document.querySelector(this._template).content.querySelector('.element').cloneNode(true);
   }
 
-  //открываю попап с картинкой
+  //открываю попап с картинкой// в ПР 7 делал так, теперь эта функция делегирована в popupwithImage
   /*_popupOpenImage() {
     this._imageInsidePopup.src = this._link
     this._imageInformation.textContent = this._name

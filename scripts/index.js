@@ -82,7 +82,7 @@ section.renderer()//зарендерил все карточки
 
 
 import { UserInfo } from './UserInfo.js'
-
+//беру исходные данные
 const ProfileInfo = new UserInfo({
   name: profileName,
   job: profileStatus,
@@ -93,9 +93,9 @@ import { PopupWithForm } from './PopupWithForm.js'
 import { PopupWithImage } from './PopupWithImage.js';
 const ImagePopup = new PopupWithImage(popupImage);
 
-const ProfilePopup = new PopupWithForm(popupProfile, handleProfileSubmit);//взрыв мозга
+const ProfilePopup = new PopupWithForm(popupProfile, handleProfileSubmit);//взрыв мозга № 2
 
-const ElementPopup = new PopupWithForm(popupElement, addNewElement);//взрыв мозга № 2
+const ElementPopup = new PopupWithForm(popupElement, addNewElement);//взрыв мозга № 3
 
 
 function profileEditHandler() {
