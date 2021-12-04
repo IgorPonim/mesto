@@ -3,28 +3,34 @@ export class Popup {
     this._popup = popup
 
   }
+
+
   close() {
     this._popup.classList.remove('popup_open')
-    document.removeEventListener('keydown', this._handleEscClose)
+    document.removeEventListener('keydown', (evt) => this._handleEscClose(evt))//без стрелочной функции не работает. Почему? непонятно...
   }
   open() {
     this._popup.classList.add('popup_open');
-    document.addEventListener('keydown', this._handleEscClose)
+    document.addEventListener('keydown', (evt) => this._handleEscClose(evt))
   }
 
-
-
-
-  _handleEscClose(evt) {
-    if (evt.key === 'Escape') {
-
+  _handleEscClose(Event) {
+    if (Event.key === 'Escape') {
       this.close()
     }
   }
 
-  setEventListeners() {
 
-    this._popup.querySelector('.popup__open').addEventListener('click', this.close())
+  setEventListeners() {//хитроумная конструкция, решил сохранить с предыдущей ПР7
+    this._popup.addEventListener('click', (evt) => {
+      if (evt.target.classList.contains('popup_open')) {
+        this.close()
+      }
+      if (evt.target.classList.contains('popup__close')) {
+        this.close()
+      }
+    })
+
 
   }
 

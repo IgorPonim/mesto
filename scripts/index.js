@@ -64,8 +64,8 @@ addFormValidationProfile.enableValidation();
 
 import { Section } from './section.js';
 function createElements(item) {//это просто взрыв мозга, как же тяжело быть программистом
-  const card = new Card(item, '.template');//спасибо наставникам, что слёзы вытирают
- return section.additem(card.createElement()); //лучше уж кассиром в пятерочке
+  const card = new Card(item, '.template', () => ImagePopup.open(item));//спасибо наставникам, что слёзы вытирают
+  return section.additem(card.createElement()); //лучше уж кассиром в пятерочке
 }// короче в предыдущей пр7 была у меня функция createElements которая возвращала вызов метода из
 //card, а теперь возвращает метод в классе section которому передается метод в классе card ааааааа!!
 //сразу почему то вспоминаются мемы с xzibit //
@@ -78,58 +78,62 @@ const section = new Section(
   elements
 )
 
-section.renderer()//
+section.renderer()//зарендерил все карточки
 
 
+import { UserInfo } from './UserInfo.js'
 
+const ProfileInfo = new UserInfo({
+  name: profileName,
+  job: profileStatus,
+});
+
+import { Popup } from './popup.js';
+import { PopupWithForm } from './PopupWithForm.js'
+import { PopupWithImage } from './PopupWithImage.js';
+const ImagePopup = new PopupWithImage(popupImage);
+
+const ProfilePopup = new PopupWithForm(popupProfile, handleProfileSubmit);//взрыв мозга
+
+const ElementPopup = new PopupWithForm(popupElement, addNewElement);//взрыв мозга № 2
 
 
 function profileEditHandler() {
-  nameInputValue.value = profileName.textContent;
-  jobInputValue.value = profileStatus.textContent;
-  popupOpen(popupProfile);
+  const { name, job } = ProfileInfo.getUserInfo();
+  nameInputValue.value = name
+  jobInputValue.value = job;
+  ProfilePopup.open()
   addFormValidationProfile.resetValidation()
 }
 
 
-function handleProfileSubmit(event) {
-  event.preventDefault()
-  profileName.textContent = nameInputValue.value;
-  profileStatus.textContent = jobInputValue.value;
-  popupClose(popupProfile);
+function handleProfileSubmit(data) {//SubmitCallBack номер 1
+  ProfileInfo.setUserInfo(data)
+
 }
 
-
-
 function elementEditHandler() {
-  popupOpen(popupElement);
+  ElementPopup.open()
   nameOfNewElement.value = ''
   linkOfNewElement.value = ''
-  /*nameOfNewElement.dispatchEvent(new Event('input'));
-  linkOfNewElement.dispatchEvent(new Event('input'));*/
   addFormValidationImage.resetValidation()
 }
 
 
-function addNewElement(event) {
-
+function addNewElement() {//SubmitCallBack номер 2
   const newValues = {
     name: nameOfNewElement.value,
     link: linkOfNewElement.value,
   }
   createElements(newValues)//переделал
-  event.preventDefault()
-  popupClose(popupElement)
 };
 
 
-
-
-//обработчики событий
+//слушатели
 profileButtonInfo.addEventListener('click', profileEditHandler);
-profileForm.addEventListener('submit', handleProfileSubmit)
 addButtonPlace.addEventListener('click', elementEditHandler);
-formAddNewCard.addEventListener('submit', addNewElement)
+ImagePopup.setEventListeners()
+ProfilePopup.setEventListeners()
+ElementPopup.setEventListeners()
 
-/////////
 
