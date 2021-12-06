@@ -1,3 +1,4 @@
+import '../pages/index.css'
 
 const popupProfile = document.querySelector('.popup_type_profile');
 const popupElement = document.querySelector('.popup_type_element');
@@ -23,7 +24,7 @@ const initialCards = [{
   name: 'Рим', link: 'https://images.unsplash.com/photo-1531572753322-ad063cecc140?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=876&q=80'
 }, { name: 'Севастополь', link: 'https://travelvesti.ru/images/2020/Oct2020/08/_YVN6735.jpg' }];
 
-
+initialCards.sort(() => 0.9 - Math.random()) // появление карточек носит рандомный характер
 
 const elements = document.querySelector('.elements')
 const cardTemplate = document.querySelector('.template').content;
@@ -63,8 +64,8 @@ addFormValidationProfile.enableValidation();
 ////////////////////////////////////////////////////////
 
 import { Section } from './section.js';
-function createElements(item) {//это просто взрыв мозга, как же тяжело быть программистом
-  const card = new Card(item, '.template', () => ImagePopup.open(item));//спасибо наставникам, что слёзы вытирают
+function createElements(data) {//это просто взрыв мозга, как же тяжело быть программистом
+  const card = new Card(data, '.template', () => ImagePopup.open(data));//спасибо наставникам, что слёзы вытирают
   return section.additem(card.createElement()); //лучше уж кассиром в пятерочке
 }// короче в предыдущей пр7 была у меня функция createElements которая возвращала вызов метода из
 //card, а теперь возвращает метод в классе section которому передается метод в классе card ааааааа!!
