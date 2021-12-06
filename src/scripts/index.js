@@ -1,3 +1,4 @@
+import '../pages/index.css'
 
 const popupProfile = document.querySelector('.popup_type_profile');
 const popupElement = document.querySelector('.popup_type_element');
