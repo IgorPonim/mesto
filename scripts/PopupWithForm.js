@@ -5,7 +5,7 @@ export class PopupWithForm extends Popup {
   constructor(popup, submitCallback) {
     super(popup);
     this._submitCallback = submitCallback;
-    this._inputs = [...this._popup.querySelectorAll('.popup__input')]
+    this._inputs = [...this._popup.querySelectorAll('.popup__input')]//собираю массив инпутов
   }
 
   //все как в задании - сделал новый массив из данных инпутов

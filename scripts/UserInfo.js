@@ -6,9 +6,10 @@ export class UserInfo {
   }
 
   getUserInfo() {
-    const name = this._name.textContent;
-    const job = this._job.textContent;
-    return { name, job };
+    return {
+     name : this._name.textContent,//собираю исходные данные
+     job : this._job.textContent
+    }
   }
 
   setUserInfo({ name, job }) {
