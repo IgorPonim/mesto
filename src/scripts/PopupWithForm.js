@@ -1,4 +1,4 @@
-import { Popup } from "./popup.js";
+import { Popup } from "./Popup.js";
 import { FormValidator } from "./FormValidator.js";
 
 export class PopupWithForm extends Popup {
@@ -10,7 +10,7 @@ export class PopupWithForm extends Popup {
 
   //все как в задании - сделал новый массив из данных инпутов
   _getInputValues() {
-    let allValues = {};
+    const allValues = {};
     this._inputs.map((input) => {
       allValues[input.name] = input.value;
     })
@@ -22,7 +22,7 @@ export class PopupWithForm extends Popup {
     super.setEventListeners();
     this._popup.querySelector('.popup__form').addEventListener('submit', (event) => {
       event.preventDefault();
-      this._submitCallback(this._getInputValues());//а теперь в index.js я использую функцию Калбек//все по заветам наставника
+      this._submitCallback(this._getInputValues());//
       this.close()
     });
   }

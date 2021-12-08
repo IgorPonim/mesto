@@ -4,6 +4,7 @@
   height: 282px;
   position: relative;
   transition: .2s ease-in-out;
+  display: block;/*если сделать так, то не схлопнутся даже с битыми ссылками*/
 }
 
 .element__image:hover {
