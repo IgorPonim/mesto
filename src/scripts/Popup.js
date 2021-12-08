@@ -1,25 +1,26 @@
 export class Popup {
   constructor(popup) {
     this._popup = popup
+    this._handleEscClose = this._handleEscClose.bind(this)//спасибо, буду это использовать в дальнейшем
   }
 
   close() {
     this._popup.classList.remove('popup_open')
-    document.removeEventListener('keydown', this._handleEscClose.bind())// а можно не в конструкторе классов? контекст установлен, ошибок в консоле нет
+    document.removeEventListener('keydown', this._handleEscClose)
   }
 
   open() {
     this._popup.classList.add('popup_open');
-    document.addEventListener('keydown', (evt) => this._handleEscClose(evt))
+    document.addEventListener('keydown', this._handleEscClose)
   }
 
-  _handleEscClose(evt) {//Event - это мусор предыдущих ПР
+  _handleEscClose(evt) {
     if (evt.key === 'Escape') {
       this.close()
     }
   }
 
-  setEventListeners() {//хитроумная конструкция, решил сохранить с предыдущей ПР7
+  setEventListeners() {
     this._popup.addEventListener('click', (evt) => {
       if (evt.target.classList.contains('popup_open')) {
         this.close()
