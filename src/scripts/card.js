@@ -1,14 +1,14 @@
-/*import { popupOpen } from './index.js';*///если позволите я не буду тут пока заморачиваться и так голова пухнет..
+
 
 export class Card {
-  constructor(data, template, handleCardClick)  {
+  constructor(data, template, handleCardClick) {
     this._name = data.name,
       this._link = data.link,
       this._template = template;
     this._popupImage = document.querySelector('.popup_type_image');
     this._imageInsidePopup = this._popupImage.querySelector('.image-container__img');
     this._imageInformation = this._popupImage.querySelector('.image-container__info')
-    this._handleCardClick  = handleCardClick//это просто метод popup.open, который работает через стрелочную функцию....
+    this._handleCardClick = handleCardClick//это просто метод popup.open, который работает через стрелочную функцию....
   }
 
   //выбрал свой шаблон
@@ -23,6 +23,7 @@ export class Card {
     this._imageInsidePopup.alt = this._name
     popupOpen(this._popupImage);
   }*/
+
   //универсальный метод создания карточки
   createElement() {
     this._mainTemplate = this._getTemplate()
@@ -33,13 +34,24 @@ export class Card {
     this._setEventListener();
     return this._mainTemplate
   }
+
+  _handeLikeClick(ev) {//могу я использовать творческий подход?
+    ev.target.classList.toggle('element__reaction_like')
+  }
+  _handeDeleteClick() {
+    this._mainTemplate.remove()//все как вы сказали
+    this._mainTemplate = null //когда вы говорите 'зануллить' - это это?
+  }
+
+
+
   //вешаю слушатели
   _setEventListener() {
     this._mainTemplate.querySelector('.element__reaction').addEventListener('click', (ev) => {
-      ev.target.classList.toggle('element__reaction_like')
+      this._handeLikeClick(ev)
     })
     this._mainTemplate.querySelector('.element__delete').addEventListener('click', (ev) => {
-      ev.target.closest('.element').remove()
+      this._handeDeleteClick(ev)
     })
     this._elementImage.addEventListener('click', () => { this._handleCardClick() })
   }

@@ -5,7 +5,7 @@ export class Popup {
 
   close() {
     this._popup.classList.remove('popup_open')
-    document.removeEventListener('keydown', (evt) => this._handleEscClose(evt))//без стрелочной функции не работает. Почему? непонятно...
+    document.removeEventListener('keydown', this._handleEscClose.bind())// а можно не в конструкторе классов? контекст установлен, ошибок в консоле нет
   }
 
   open() {
@@ -13,8 +13,8 @@ export class Popup {
     document.addEventListener('keydown', (evt) => this._handleEscClose(evt))
   }
 
-  _handleEscClose(Event) {
-    if (Event.key === 'Escape') {
+  _handleEscClose(evt) {//Event - это мусор предыдущих ПР
+    if (evt.key === 'Escape') {
       this.close()
     }
   }
