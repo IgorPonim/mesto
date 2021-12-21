@@ -429,6 +429,7 @@ template {
     width: 90%;
     margin: 40px auto 51px auto;
     display: flex;
+    position: relative;
 }
 
 @media screen and (max-width: 768px) {
@@ -445,14 +446,18 @@ template {
         margin-bottom: 37px;
     }
 }
+
 .profile__avatars {
-    background-image: url(f882da8549442d62a9f4.jpg);
+    /*background-image: url('../../../images/leon.jpg');по умолчанию был div и мой любимый актер*/
     width: 120px;
     height: 120px;
     border-radius: 50%;
     object-position: center;
     overflow: hidden;
-    background-size: cover;
+   /* background-size: cover;*/
+   object-fit: cover;
+   position: relative;
+
 }
 
 .profile__infos {
@@ -617,17 +622,18 @@ template {
 }
 
 .element__description {
-    display: flex;
-    min-width: 240px;
-    margin: 20px auto 25px auto;
-    width: 85%;
-    z-index: 100;
+  display: flex;
+  min-width: 240px;
+  margin: 20px auto 25px auto;
+  width: 85%;
+  z-index: 100;
+  justify-content: space-between;
 }
 
 @media screen and (max-width: 425px) {
-    .element__description {
-        margin-bottom: 27px;
-    }
+  .element__description {
+    margin-bottom: 27px;
+  }
 }
 
 .element__reaction {
@@ -960,6 +966,60 @@ template {
   opacity: 1;
 }
 
+.profile__avatars-edit {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  top: 0;
+  width: 120px;
+  height: 120px;
+  padding: 0;
+  border: none;
+  background-image: url(a086f758840ae814ecde.svg);
+  overflow: hidden;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: .1s linear;
+  opacity: 0;
+  transition: opacity .5s ease, visibility linear .5s;
+}
+
+.profile__avatars-edit:hover {
+  display: flex;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.profile__avatars-edit {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  top: 0;
+  width: 120px;
+  height: 120px;
+  padding: 0;
+  border: none;
+  background-image: url(a086f758840ae814ecde.svg);
+  overflow: hidden;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: .1s linear;
+  opacity: 0;
+  transition: opacity .5s ease, visibility linear .5s;
+}
+
+.profile__avatars-edit:hover {
+  display: flex;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.element__reaction-amount {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  margin-top: 3px;
+  font-size: 13px;
+  line-height: 16px;
+}
 
 
 
