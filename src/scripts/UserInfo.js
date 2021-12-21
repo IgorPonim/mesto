@@ -1,20 +1,21 @@
 export class UserInfo {
-  constructor({ name, job }) {
+  constructor({ name, job, avatar }) {
     this._name = name
     this._job = job
+    this._avatar = avatar
 
   }
 
   getUserInfo() {
     return {
-     name : this._name.textContent,//собираю исходные данные
-     job : this._job.textContent
+      name: this._name.textContent,//собираю исходные данные
+      job: this._job.textContent
     }
   }
 
-  setUserInfo({ name, job }) {
+  setUserInfo({ name, about, avatar }) { //раньше второй аргумент был job теперь about, ибо так настроили сервер
     this._name.textContent = name;
-    this._job.textContent = job;
-
+    this._job.textContent = about;
+    this._avatar.src = avatar;
   }
 }

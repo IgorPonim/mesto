@@ -37,5 +37,7 @@
 @import url('../blocks/popup/__button/_disabled/popup__button_disabled.css');
 @import url('../blocks/popup/__input/_type_error/popup__input_type_error.css');
 @import url('../blocks/popup/__error/_visible/popup__error_visible.css');
-
+@import url('../blocks/profile/__avatars-edit/profile__avatars-edit.css');
+@import url('../blocks/profile/__avatars-edit/profile__avatars-edit.css');
+@import url('../blocks/element/__reaction-amount/element__reaction-amount.css');
 

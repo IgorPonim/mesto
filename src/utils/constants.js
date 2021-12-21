@@ -50,3 +50,9 @@ export const validationConfig = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible',
 }
+
+export const avatar = document.querySelector('.profile__avatars')
+export const popupAvatar = document.querySelector('.popup_type_avatar-edit')
+export const avatarForm = document.querySelector('.popup__form_type_avatar-edit');
+export const avatarButton = document.querySelector('.profile__avatars-edit')
+
