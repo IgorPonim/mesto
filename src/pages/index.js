@@ -8,48 +8,79 @@ import { PopupWithImage } from '../scripts/PopupWithImage.js';
 
 import {
   popupProfile, popupElement, popupImage, profileButtonInfo, popupCloseButton, profileForm, nameInputValue, profileName, jobInputValue,
-  profileStatus, popupButton, initialCards, elements, cardTemplate, addButtonPlace, infoCardCloseButton, popupButtonToCreateNewElement,
+  profileStatus, popupButton,/* initialCards,*/ elements, cardTemplate, addButtonPlace, infoCardCloseButton, popupButtonToCreateNewElement,
   nameOfNewElement, linkOfNewElement, elementReactionLike, formAddNewCard, imageInsidePopup, imageCloseButton, imageInformation,
-  validationConfig
+  validationConfig, avatar, popupAvatar, avatarForm, avatarButton
+
 } from '../utils/constants.js' //вынес константы в папку utils как в тренажере, почистил index.js
 
-initialCards.sort(() => 0.9 - Math.random()) // появление карточек носит рандомный характер
+
 
 const addFormValidationImage = new FormValidator(validationConfig, formAddNewCard);
 const addFormValidationProfile = new FormValidator(validationConfig, profileForm);
+const addFormValidationAvatar = new FormValidator(validationConfig, avatarForm)
 
 addFormValidationImage.enableValidation();
 addFormValidationProfile.enableValidation();
-
+addFormValidationAvatar.enableValidation();
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
 
 function createElements(data) {
   const card = new Card(data, '.template', () => imagePopup.open(data));
-  section.additem(card.createElement());//ненужен return протупил, действительно не возвращает
+  section.additem(card.createElement());
 }
+
+import { Api } from '../scripts/Api.js';
+const api = new Api({
+  adress: "https://mesto.nomoreparties.co/v1/cohort-32",
+  headers: {
+    authorization: "49a3f156-043e-4000-9a32-20530068bc3d",
+
+    'Content-Type': 'application/json'
+  }
+});
+//загрузил с сервера исходные карточки
+api.getInitialCards()
+  .then((data) => {
+    data.forEach(createElements)
+  })
+  .catch((error) => {
+    console.log(error);//мало ли, ошибка
+  });
+
+api.getUserInfo().then((data) => { // вызвали данные сервера и отправили в dom
+  profileInfo.setUserInfo(data)
+})
+
+
+
+
+
+
 
 const section = new Section(
   {
-    items: initialCards,
+    items: [],
     renderer: createElements,
   },
   elements
 )
 
-section.renderer()//зарендерил карточки
+/*section.renderer()//зарендерил карточки*/
 
 //беру исходные данные
 const profileInfo = new UserInfo({
   name: profileName,
   job: profileStatus,
+  avatar: avatar//добавил аватарочку
 });
 
 const imagePopup = new PopupWithImage(popupImage);
 const profilePopup = new PopupWithForm(popupProfile, handleProfileSubmit);//
 const elementPopup = new PopupWithForm(popupElement, addNewElement);
-
+const avatarPopup = new PopupWithForm(popupAvatar,);
 
 function profileEditHandler() {
   const { name, job } = profileInfo.getUserInfo();
@@ -61,7 +92,13 @@ function profileEditHandler() {
 
 
 function handleProfileSubmit(data) {//SubmitCallBack номер 1
-  profileInfo.setUserInfo(data)
+  api.editUserInfo(data)
+    .then((info) => {
+      profileInfo.setUserInfo(info);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 function elementEditHandler() {
@@ -73,18 +110,37 @@ function elementEditHandler() {
 
 
 function addNewElement() {//SubmitCallBack номер 2
-  const newValues = {
+
+  api.createCard({
     name: nameOfNewElement.value,
     link: linkOfNewElement.value,
-  }
-  createElements(newValues)//переделал
+  })
+    .then(createElements)
+    .catch((error) => {
+      console.log(error);
+    })
+
+
 };
+
+function avatarEditHandler() {
+  nameOfNewElement.value = ''
+  addFormValidationAvatar.resetValidation()
+  avatarPopup.open()
+}
+
+
 
 //слушатели
 profileButtonInfo.addEventListener('click', profileEditHandler);
 addButtonPlace.addEventListener('click', elementEditHandler);
+avatarButton.addEventListener('click', avatarEditHandler)
 imagePopup.setEventListeners()
 profilePopup.setEventListeners()
 elementPopup.setEventListeners()
+avatarPopup.setEventListeners()
+
+
+
 
 

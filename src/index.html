@@ -19,7 +19,7 @@
 
     <main class='content'>
       <section class='profile'>
-        <div class='profile__avatars'></div>
+        <img class='profile__avatars'><button class='profile__avatars-edit'></button></img>
         <div class='profile__infos'>
           <h1 class='profile__name'>Лео Ди Каприо</h1>
           <button type='button' class='profile__edit'></button>
@@ -43,7 +43,10 @@
             <button type='submit' class='element__delete'></button>
             <div class='element__description'>
               <h2 class='element__name'>Карачаево - Черкесия</h2>
+              <div class='element__likes-area'>
               <button type='button' class='element__reaction'></button>
+              <p class='element__reaction-amount'>0</p>
+            </div>
             </div>
           </article>
         </template>
@@ -94,9 +97,20 @@
       </div>
     </div>
 
+
+    <div class='popup popup_type_avatar-edit'>
+      <div class='popup__content'>
+        <button type='button' class='popup__close popup__close_avatar-edit'></button>
+        <h3 class='popup__title'> Обновить аватар</h3>
+        <form name='avatar-info' class='popup__form  popup__form_type_avatar-edit'>
+          <input id='input-element-name' name='place-name' required type='url' placeholder='Ссылка'
+            class='popup__input popup__input_type_name-element'>
+          <span id='input-element-name-error' class='popup__error popup-element-error'></span>
+          <button type='submit' class='popup__button popup__button_type_change'>Сохранить</button>
+      </div>
+    </div>
+
   </div>
-
-
 
 </body>
 
