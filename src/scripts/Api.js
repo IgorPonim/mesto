@@ -41,7 +41,7 @@ export class Api {
     })
   }
 
-  createCard({name,link}) {
+  createCard({ name, link }) {
     return fetch(this.adress + '/cards', {
       method: 'POST',
       headers: this.headers,
@@ -49,6 +49,14 @@ export class Api {
         name,
         link
       })
+    })
+  }
+
+  //// лайки
+  sendLike = (cardId)=> {
+    return fetch(this.adress + `/cards/${cardId}/likes/` , {
+      method: 'PUT',
+      headers: this.headers,
     }).then(res => {
       if (res.ok) {
         return res.json();
@@ -56,6 +64,19 @@ export class Api {
       else return Promise.reject(`Ошибка: ${res.status}`);
     })
   }
+
+  deleteLike = (cardId) => {
+    return fetch(this.adress + `/cards/${cardId}/likes/`  ,{
+      method: 'DELETE',
+      headers: this.headers,
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      else return Promise.reject(`Ошибка: ${res.status}`);
+    })
+  }
+
 
 
 }

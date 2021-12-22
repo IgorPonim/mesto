@@ -27,10 +27,6 @@ addFormValidationAvatar.enableValidation();
 ////////////////////////////////////////////////////////
 
 
-function createElements(data) {
-  const card = new Card(data, '.template', () => imagePopup.open(data));
-  section.additem(card.createElement());
-}
 
 import { Api } from '../scripts/Api.js';
 const api = new Api({
@@ -44,7 +40,7 @@ const api = new Api({
 //загрузил с сервера исходные карточки
 api.getInitialCards()
   .then((data) => {
-    data.forEach(createElements)
+    data.forEach(createElements)//data.name = name, data.link = src, likes.length = likes[]
   })
   .catch((error) => {
     console.log(error);//мало ли, ошибка
@@ -56,6 +52,11 @@ api.getUserInfo().then((data) => { // вызвали данные сервера
 
 
 
+function createElements(data) {
+  const card = new Card(data, '.template', () => imagePopup.open(data), api.sendLike, api.deleteLike, profileInfo.id);
+
+  section.additem(card.createElement());
+}
 
 
 
