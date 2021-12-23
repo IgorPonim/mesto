@@ -10,7 +10,7 @@ import {
   popupProfile, popupElement, popupImage, profileButtonInfo, popupCloseButton, profileForm, nameInputValue, profileName, jobInputValue,
   profileStatus, popupButton,/* initialCards,*/ elements, cardTemplate, addButtonPlace, infoCardCloseButton, popupButtonToCreateNewElement,
   nameOfNewElement, linkOfNewElement, elementReactionLike, formAddNewCard, imageInsidePopup, imageCloseButton, imageInformation,
-  validationConfig, avatar, popupAvatar, avatarForm, avatarButton
+  validationConfig, avatar, popupAvatar, avatarForm, avatarButton, linkOfNewAva
 
 } from '../utils/constants.js' //вынес константы в папку utils как в тренажере, почистил index.js
 
@@ -53,11 +53,32 @@ api.getUserInfo().then((data) => { // вызвали данные сервера
 
 
 function createElements(data) {
-  const card = new Card(data, '.template', () => imagePopup.open(data), api.sendLike, api.deleteLike, profileInfo.id);
+  const card = new Card({ data,
+    template:'.template',
+    handleCardClick: () => imagePopup.open(data),
+    sendLike: api.sendLike,
+    deleteLike: api.deleteLike,
+   id: profileInfo.id
+});
 
-  section.additem(card.createElement());
+section.additem(card.createElement());
 }
 
+
+function addNewElement() {//SubmitCallBack номер 2
+  api.createCard({
+    name: nameOfNewElement.value,
+    link: linkOfNewElement.value,
+
+  })
+    .then((data) => {
+      createElements(data)
+
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+};
 
 
 
@@ -81,7 +102,7 @@ const profileInfo = new UserInfo({
 const imagePopup = new PopupWithImage(popupImage);
 const profilePopup = new PopupWithForm(popupProfile, handleProfileSubmit);//
 const elementPopup = new PopupWithForm(popupElement, addNewElement);
-const avatarPopup = new PopupWithForm(popupAvatar,);
+const avatarPopup = new PopupWithForm(popupAvatar, changeAvatar);
 
 function profileEditHandler() {
   const { name, job } = profileInfo.getUserInfo();
@@ -110,26 +131,22 @@ function elementEditHandler() {
 }
 
 
-function addNewElement() {//SubmitCallBack номер 2
 
-  api.createCard({
-    name: nameOfNewElement.value,
-    link: linkOfNewElement.value,
-  })
-    .then(createElements)
-    .catch((error) => {
-      console.log(error);
-    })
-
-
-};
 
 function avatarEditHandler() {
-  nameOfNewElement.value = ''
-  addFormValidationAvatar.resetValidation()
   avatarPopup.open()
+  linkOfNewAva.value = ''
+  addFormValidationAvatar.resetValidation()
 }
+function changeAvatar() {//отправлю данные на сервер и обновлюсь
+  api.changeAvatar(linkOfNewAva.value).then((res) => {
+    profileInfo.setUserInfo(res)
+  }) //обновил
 
+    .catch((error) => {
+      console.log(error);
+    });
+}
 
 
 //слушатели

@@ -1,11 +1,12 @@
 
 
 export class Card {
-  constructor(data, template, handleCardClick, sendLike, deleteLike, id) {
-    this._name = data.name,
+  constructor({ data, template, handleCardClick, sendLike, deleteLike, id }) {
+      this._likes = data.likes
+      this._name = data.name,
       this._link = data.link,
+this._ownerId = data.owner._id
       this._template = template;
-    this._likes = data.likes
     this._popupImage = document.querySelector('.popup_type_image');
     this._imageInsidePopup = this._popupImage.querySelector('.image-container__img');
     this._imageInformation = this._popupImage.querySelector('.image-container__info')
@@ -20,30 +21,25 @@ export class Card {
     this._amountOfLikes = this._mainTemplate.querySelector('.element__reaction-amount')
 
   }
-
   //выбрал свой шаблон
   _getTemplate() {
     return document.querySelector(this._template).content.querySelector('.element').cloneNode(true);
   }
 
-  //открываю попап с картинкой// в ПР 7 делал так, теперь эта функция делегирована в popupwithImage
-  /*_popupOpenImage() {
-    this._imageInsidePopup.src = this._link
-    this._imageInformation.textContent = this._name
-    this._imageInsidePopup.alt = this._name
-    popupOpen(this._popupImage);
-  }*/
-
   //универсальный метод создания карточки
   createElement() {
-
     this._elementImage = this._mainTemplate.querySelector('.element__image');
     this._elementImage.src = this._link
     this._elementImage.alt = this._name
     this._mainTemplate.querySelector('.element__name').textContent = this._name
     this._setEventListener();
 
-
+    const checkLike = this._likes.some(({ _id }) => _id === this._userId);
+    if (checkLike === true) {
+      this._buttonLike.classList.add('element__reaction_like');
+    }
+    this._amountOfLikes.textContent = this._likes.length;
+    if (this._ownerId === this._userId ) { this._mainTemplate.querySelector('.element__delete').setAttribute('style', 'visibility:visible'); }
 
     return this._mainTemplate
   }
@@ -77,10 +73,7 @@ export class Card {
       this._handeDeleteClick(ev)
     })
     this._elementImage.addEventListener('click', () => { this._handleCardClick() })
-    const checkLike = this._likes.some(({ _id }) => _id === this._userId);
-    if (checkLike === true) {
-      this._buttonLike.classList.add('element__reaction_like');
-    }
-    this._amountOfLikes.textContent = this._likes.length;
+
+
   }
 }
