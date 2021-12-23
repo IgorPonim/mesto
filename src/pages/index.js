@@ -53,11 +53,32 @@ api.getUserInfo().then((data) => { // вызвали данные сервера
 
 
 function createElements(data) {
-  const card = new Card(data, '.template', () => imagePopup.open(data), api.sendLike, api.deleteLike, profileInfo.id);
+  const card = new Card({ data,
+    template:'.template',
+    handleCardClick: () => imagePopup.open(data),
+    sendLike: api.sendLike,
+    deleteLike: api.deleteLike,
+   id: profileInfo.id
+});
 
-  section.additem(card.createElement());
+section.additem(card.createElement());
 }
 
+
+function addNewElement() {//SubmitCallBack номер 2
+  api.createCard({
+    name: nameOfNewElement.value,
+    link: linkOfNewElement.value,
+
+  })
+    .then((data) => {
+      createElements(data)
+
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+};
 
 
 
@@ -110,22 +131,7 @@ function elementEditHandler() {
 }
 
 
-function addNewElement() {//SubmitCallBack номер 2
 
-  api.createCard({
-    name: nameOfNewElement.value,
-    link: linkOfNewElement.value,
-  })
-  .then((data) => {
-    createElements(data)
-
-  })
-    .catch((error) => {
-      console.log(error);
-    })
-
-
-};
 
 function avatarEditHandler() {
   avatarPopup.open()
@@ -133,10 +139,11 @@ function avatarEditHandler() {
   addFormValidationAvatar.resetValidation()
 }
 function changeAvatar() {//отправлю данные на сервер и обновлюсь
-  api.changeAvatar( linkOfNewAva.value).then((res) => {
-    profileInfo.setUserInfo(res)}) //обновил
+  api.changeAvatar(linkOfNewAva.value).then((res) => {
+    profileInfo.setUserInfo(res)
+  }) //обновил
 
-  .catch ((error) => {
+    .catch((error) => {
       console.log(error);
     });
 }
