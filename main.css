@@ -893,11 +893,13 @@ template {
     top: 20px;
     right: 20px;
     cursor: pointer;
+    visibility: hidden;
 }
 
 .element__delete:hover {
     opacity: .7;
 }
+
 .image-container {
   position: relative;
   object-fit: inherit;
