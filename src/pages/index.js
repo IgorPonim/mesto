@@ -10,7 +10,7 @@ import {
   popupProfile, popupElement, popupImage, profileButtonInfo, popupCloseButton, profileForm, nameInputValue, profileName, jobInputValue,
   profileStatus, popupButton,/* initialCards,*/ elements, cardTemplate, addButtonPlace, infoCardCloseButton, popupButtonToCreateNewElement,
   nameOfNewElement, linkOfNewElement, elementReactionLike, formAddNewCard, imageInsidePopup, imageCloseButton, imageInformation,
-  validationConfig, avatar, popupAvatar, avatarForm, avatarButton
+  validationConfig, avatar, popupAvatar, avatarForm, avatarButton, linkOfNewAva
 
 } from '../utils/constants.js' //вынес константы в папку utils как в тренажере, почистил index.js
 
@@ -81,7 +81,7 @@ const profileInfo = new UserInfo({
 const imagePopup = new PopupWithImage(popupImage);
 const profilePopup = new PopupWithForm(popupProfile, handleProfileSubmit);//
 const elementPopup = new PopupWithForm(popupElement, addNewElement);
-const avatarPopup = new PopupWithForm(popupAvatar,);
+const avatarPopup = new PopupWithForm(popupAvatar, changeAvatar);
 
 function profileEditHandler() {
   const { name, job } = profileInfo.getUserInfo();
@@ -116,7 +116,10 @@ function addNewElement() {//SubmitCallBack номер 2
     name: nameOfNewElement.value,
     link: linkOfNewElement.value,
   })
-    .then(createElements)
+  .then((data) => {
+    createElements(data)
+
+  })
     .catch((error) => {
       console.log(error);
     })
@@ -125,11 +128,18 @@ function addNewElement() {//SubmitCallBack номер 2
 };
 
 function avatarEditHandler() {
-  nameOfNewElement.value = ''
-  addFormValidationAvatar.resetValidation()
   avatarPopup.open()
+  linkOfNewAva.value = ''
+  addFormValidationAvatar.resetValidation()
 }
+function changeAvatar() {//отправлю данные на сервер и обновлюсь
+  api.changeAvatar( linkOfNewAva.value).then((res) => {
+    profileInfo.setUserInfo(res)}) //обновил
 
+  .catch ((error) => {
+      console.log(error);
+    });
+}
 
 
 //слушатели

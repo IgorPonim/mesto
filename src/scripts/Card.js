@@ -18,7 +18,7 @@ export class Card {
     this._id = data._id;
     this._userId = id;
     this._amountOfLikes = this._mainTemplate.querySelector('.element__reaction-amount')
-
+   /* this._owner_id = data.owner._id*/
   }
 
   //выбрал свой шаблон
@@ -82,5 +82,7 @@ export class Card {
       this._buttonLike.classList.add('element__reaction_like');
     }
     this._amountOfLikes.textContent = this._likes.length;
+    if (this._owner_id === this._userId) { this._mainTemplate.querySelector('.element__delete').setAttribute('style', 'visibility:visible'); }
+
   }
 }

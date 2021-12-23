@@ -13,7 +13,7 @@ export class UserInfo {
     }
   }
 
-  setUserInfo({ name, about, avatar, _id }) { //раньше второй аргумент был job теперь about, ибо так настроили сервер
+  setUserInfo({ name, about, avatar, _id }) {
     this._name.textContent = name;
     this._job.textContent = about;
     this._avatar.src = avatar;

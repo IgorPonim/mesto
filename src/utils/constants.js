@@ -31,6 +31,9 @@ export const infoCardCloseButton = document.querySelector('.popup__close_type_el
 export const popupButtonToCreateNewElement = document.querySelector('.popup__button_type_create')
 export const nameOfNewElement = document.querySelector('.popup__input_type_name-element');
 export const linkOfNewElement = document.querySelector('.popup__input_type_link');
+
+export const linkOfNewAva = document.querySelector('#input-ava-link');
+
 export const elementReactionLike = document.querySelector('.element__reaction')
 export const formAddNewCard = document.querySelector('.popup__form_type_image');
 export const imageInsidePopup = document.querySelector('.image-container__img');
