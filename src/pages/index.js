@@ -10,7 +10,7 @@ import {
   popupProfile, popupElement, popupImage, profileButtonInfo, popupCloseButton, profileForm, nameInputValue, profileName, jobInputValue,
   profileStatus, popupButton,/* initialCards,*/ elements, cardTemplate, addButtonPlace, infoCardCloseButton, popupButtonToCreateNewElement,
   nameOfNewElement, linkOfNewElement, elementReactionLike, formAddNewCard, imageInsidePopup, imageCloseButton, imageInformation,
-  validationConfig, avatar, popupAvatar, avatarForm, avatarButton, linkOfNewAva
+  validationConfig, avatar, popupAvatar, avatarForm, avatarButton, linkOfNewAva, profileButton, avatarButtonSubmit
 
 } from '../utils/constants.js' //вынес константы в папку utils как в тренажере, почистил index.js
 
@@ -53,38 +53,42 @@ api.getUserInfo().then((data) => { // вызвали данные сервера
 
 
 function createElements(data) {
-  const card = new Card({ data,
-    template:'.template',
+  const card = new Card({
+    data,
+    template: '.template',
     handleCardClick: () => imagePopup.open(data),
     sendLike: api.sendLike,
     deleteLike: api.deleteLike,
-   id: profileInfo.id
-});
+    id: profileInfo.id,
+    deleteCards: api.deleteСards
+  });
 
-section.additem(card.createElement());
+  section.additem(card.createElement());
 }
 
 
 function addNewElement() {//SubmitCallBack номер 2
+
   api.createCard({
     name: nameOfNewElement.value,
     link: linkOfNewElement.value,
 
   })
     .then((data) => {
-      createElements(data)
-
+      popupButtonToCreateNewElement.textContent = 'Сохранение..'
+      setTimeout(() => createElements(data), 2000)
     })
     .catch((error) => {
       console.log(error);
     })
+
 };
 
 
 
 const section = new Section(
   {
-    items: [],
+    items: [],//раньше был initialCards
     renderer: createElements,
   },
   elements
@@ -110,14 +114,17 @@ function profileEditHandler() {
   jobInputValue.value = job;
   profilePopup.open()
   addFormValidationProfile.resetValidation()
+  profileButton.textContent = 'Сохранить'
 }
 
 
 function handleProfileSubmit(data) {//SubmitCallBack номер 1
   api.editUserInfo(data)
     .then((info) => {
-      profileInfo.setUserInfo(info);
+      profileButton.textContent = 'Сохранение..'
+      setTimeout(() => profileInfo.setUserInfo(info), 2000)
     })
+
     .catch((error) => {
       console.log(error);
     });
@@ -128,6 +135,7 @@ function elementEditHandler() {
   nameOfNewElement.value = ''
   linkOfNewElement.value = ''
   addFormValidationImage.resetValidation()
+  popupButtonToCreateNewElement.textContent = 'Создать'
 }
 
 
@@ -137,11 +145,15 @@ function avatarEditHandler() {
   avatarPopup.open()
   linkOfNewAva.value = ''
   addFormValidationAvatar.resetValidation()
+  avatarButtonSubmit.textContent = 'Сохранить'
 }
-function changeAvatar() {//отправлю данные на сервер и обновлюсь
-  api.changeAvatar(linkOfNewAva.value).then((res) => {
-    profileInfo.setUserInfo(res)
-  }) //обновил
+function changeAvatar() {//отправлю данные на сервер и обновлюсь //SubmitCallBack номер 3
+  api.changeAvatar(linkOfNewAva.value)
+
+    .then((info) => {
+      avatarButtonSubmit.textContent = 'Сохранение..'
+      setTimeout(() => profileInfo.setUserInfo(info), 2000)
+    })//обновил
 
     .catch((error) => {
       console.log(error);
