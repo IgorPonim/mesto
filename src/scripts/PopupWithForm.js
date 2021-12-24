@@ -23,7 +23,8 @@ export class PopupWithForm extends Popup {
     this._popup.querySelector('.popup__form').addEventListener('submit', (event) => {
       event.preventDefault();
       this._submitCallback(this._getInputValues());//
-      this.close()
+      setTimeout(() => this.close(), 2000)
+
     });
   }
 }

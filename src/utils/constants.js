@@ -58,4 +58,5 @@ export const avatar = document.querySelector('.profile__avatars')
 export const popupAvatar = document.querySelector('.popup_type_avatar-edit')
 export const avatarForm = document.querySelector('.popup__form_type_avatar-edit');
 export const avatarButton = document.querySelector('.profile__avatars-edit')
-
+export const profileButton = document.querySelector('.popup__button_type_save')
+export const avatarButtonSubmit = document.querySelector('.popup__button_type_change')
