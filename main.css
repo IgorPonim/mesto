@@ -628,6 +628,7 @@ template {
   width: 85%;
   z-index: 100;
   justify-content: space-between;
+  align-items: center;
 }
 
 @media screen and (max-width: 425px) {
