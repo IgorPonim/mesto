@@ -19,7 +19,7 @@
 
     <main class='content'>
       <section class='profile'>
-        <img src='' class='profile__avatars'><button class='profile__avatars-edit'></button>
+        <img src='./' class='profile__avatars'><button class='profile__avatars-edit'></button>
         <div class='profile__infos'>
           <h1 class='profile__name'>Лео Ди Каприо</h1>
           <button type='button' class='profile__edit'></button>
@@ -106,9 +106,23 @@
           <input id='input-ava-link' name='place-link' type='url' required placeholder='Ссылка на картинку'
             class='popup__input popup__input_type_link'>
           <span id='input-ava-link-error' class='popup__error popup-link-error'></span>
-          <button type='submit' class='popup__button popup__button_type_change'>Сохранить</button></form>
+          <button type='submit' class='popup__button popup__button_type_change'>Сохранить</button>
+        </form>
       </div>
     </div>
+
+
+    <div class='popup popup_type_confirm'>
+      <div class='popup__content'>
+        <button type='button' class='popup__close popup__close_type_confirm'></button>
+        <h3 class='popup__title'> Вы уверены?</h3>
+        <form name='confirm' class='popup__form  popup__form_type_confirm'>
+          <button type='submit' class='popup__button popup__button_type_confirm'>Да</button>
+        </form>
+      </div>
+    </div>
+
+
 
   </div>
 

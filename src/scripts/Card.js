@@ -7,9 +7,9 @@ export class Card {
       this._link = data.link,
 
       this._template = template;
-    this._popupImage = document.querySelector('.popup_type_image');
-    this._imageInsidePopup = this._popupImage.querySelector('.image-container__img');
-    this._imageInformation = this._popupImage.querySelector('.image-container__info')
+
+
+
     this._handleCardClick = handleCardClick//это просто метод popup.open, который работает через стрелочную функцию....
     this._sendLike = sendLike
     this._deleteLike = deleteLike
@@ -57,15 +57,8 @@ export class Card {
         .catch((error) => console.log(error));
     }
   }
-  _handeDeleteClick() {
-    this._delete(this._id)
-      .then(() => {
-        this._mainTemplate.remove()
-        this._mainTemplate = null
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+  _handeDeleteClick = () => {
+    this._delete(this._mainTemplate)
   }
 
   _chekTheLikes = ({ likes }) => {//взаимодействую с длиной масива likes[] который пополняется другими студентами

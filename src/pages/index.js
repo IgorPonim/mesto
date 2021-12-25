@@ -5,13 +5,14 @@ import { Section } from '../scripts/Section.js';
 import { UserInfo } from '../scripts/UserInfo.js'
 import { PopupWithForm } from '../scripts/PopupWithForm.js'
 import { PopupWithImage } from '../scripts/PopupWithImage.js';
+import { ConfirmationPopup } from '../scripts/ConfirmationPopup.js';
 
 import {
   popupProfile, popupElement, popupImage, profileButtonInfo, popupCloseButton, profileForm, nameInputValue, profileName, jobInputValue,
   profileStatus, popupButton,/* initialCards,*/ elements, cardTemplate, addButtonPlace, infoCardCloseButton, popupButtonToCreateNewElement,
   nameOfNewElement, linkOfNewElement, elementReactionLike, formAddNewCard, imageInsidePopup, imageCloseButton, imageInformation,
   validationConfig, avatar, popupAvatar, avatarForm, avatarButton, linkOfNewAva, profileButton, avatarButtonSubmit
-
+,popupConfirm,deleteButtonOnCard
 } from '../utils/constants.js' //вынес константы в папку utils как в тренажере, почистил index.js
 
 
@@ -60,7 +61,15 @@ function createElements(data) {
     sendLike: api.sendLike,
     deleteLike: api.deleteLike,
     id: profileInfo.id,
-    deleteCards: api.deleteСards
+    deleteCards: (card) => {
+      confirmPopup.open(() => {
+        api.deleteСards(data._id)
+          .then(card.remove(),confirmPopup.close())
+          .catch((err) => {
+            console.log(err)
+          })
+      })
+    }
   });
 
   section.additem(card.createElement());
@@ -107,6 +116,8 @@ const imagePopup = new PopupWithImage(popupImage);
 const profilePopup = new PopupWithForm(popupProfile, handleProfileSubmit);//
 const elementPopup = new PopupWithForm(popupElement, addNewElement);
 const avatarPopup = new PopupWithForm(popupAvatar, changeAvatar);
+const confirmPopup = new ConfirmationPopup(popupConfirm)
+
 
 function profileEditHandler() {
   const { name, job } = profileInfo.getUserInfo();
@@ -161,15 +172,19 @@ function changeAvatar() {//отправлю данные на сервер и о
 }
 
 
+
 //слушатели
 profileButtonInfo.addEventListener('click', profileEditHandler);
 addButtonPlace.addEventListener('click', elementEditHandler);
 avatarButton.addEventListener('click', avatarEditHandler)
+
+
+
 imagePopup.setEventListeners()
 profilePopup.setEventListeners()
 elementPopup.setEventListeners()
 avatarPopup.setEventListeners()
-
+confirmPopup.setEventListeners()
 
 
 
