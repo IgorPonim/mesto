@@ -95,6 +95,7 @@ function addNewElement(data) {//SubmitCallBack номер 2
   api.createCard(data)
     .then((data) => {
       createElements(data)
+      elementPopup.close()
     })
     .catch((error) => {
       console.log(error);
@@ -143,6 +144,7 @@ function handleProfileSubmit(data) {
   api.editUserInfo(data)
     .then((info) => {
       profileInfo.setUserInfo(info)
+      profilePopup.close()
     })
     .catch((error) => {
       console.log(error);
