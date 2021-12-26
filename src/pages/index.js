@@ -12,10 +12,8 @@ import {
   profileStatus, popupButton,/* initialCards,*/ elements, cardTemplate, addButtonPlace, infoCardCloseButton, popupButtonToCreateNewElement,
   nameOfNewElement, linkOfNewElement, elementReactionLike, formAddNewCard, imageInsidePopup, imageCloseButton, imageInformation,
   validationConfig, avatar, popupAvatar, avatarForm, avatarButton, linkOfNewAva, profileButton, avatarButtonSubmit
-,popupConfirm,deleteButtonOnCard
+  , popupConfirm, deleteButtonOnCard
 } from '../utils/constants.js' //вынес константы в папку utils как в тренажере, почистил index.js
-
-
 
 const addFormValidationImage = new FormValidator(validationConfig, formAddNewCard);
 const addFormValidationProfile = new FormValidator(validationConfig, profileForm);
@@ -38,61 +36,73 @@ const api = new Api({
     'Content-Type': 'application/json'
   }
 });
-//загрузил с сервера исходные карточки
-api.getInitialCards()
-  .then((data) => {
-    data.forEach(createElements)//data.name = name, data.link = src, likes.length = likes[]
+//обьединил 2 промиса как в задании
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    profileInfo.setUserInfo(userData);
+    cards.forEach(createElements);
   })
-  .catch((error) => {
-    console.log(error);//мало ли, ошибка
+  .catch((err) => {
+    console.log(err);
   });
 
-api.getUserInfo().then((data) => { // вызвали данные сервера и отправили в dom
-  profileInfo.setUserInfo(data)
-})
 
 
-
-function createElements(data) {
+//нижняя функция не взаимодействует с дом, просто создает экземлпяр
+function createCard(data) {
   const card = new Card({
     data,
     template: '.template',
     handleCardClick: () => imagePopup.open(data),
     sendLike: api.sendLike,
-    deleteLike: api.deleteLike,
+    deleteLike: api.deleteLike,//а здесь мне надо прописывать catch и finally?
     id: profileInfo.id,
-    deleteCards: (card) => {
+    deleteCards: () => { //здесь я понимаю что нужно, потому что нет ссылки на метод
       confirmPopup.open(() => {
+        confirmPopup.renderLoading(true);
         api.deleteСards(data._id)
-          .then(card.remove(),confirmPopup.close())
+          .then(() => {
+            card._handeDeleteClick(data._id);
+            card._removeTemplate()
+            confirmPopup.close();
+          })
           .catch((err) => {
             console.log(err)
           })
+          .finally(() => {
+            confirmPopup.renderLoading(false);
+
+          })
       })
     }
-  });
+  })
+  return card.createElement()//я надеюсь вас правильно понял?
+}
 
-  section.additem(card.createElement());
+function createElements(data) {
+  const card = createCard(data)
+  section.additem(card);
 }
 
 
-function addNewElement() {//SubmitCallBack номер 2
+function elementEditHandler() {
+  elementPopup.open()
+  addFormValidationImage.resetValidation()
+}
 
-  api.createCard({
-    name: nameOfNewElement.value,
-    link: linkOfNewElement.value,
-
-  })
+function addNewElement(data) {//SubmitCallBack номер 2
+  elementPopup.renderLoading(true)
+  api.createCard(data)
     .then((data) => {
-      popupButtonToCreateNewElement.textContent = 'Сохранение..'
-      setTimeout(() => createElements(data), 2000)
+      createElements(data)
     })
     .catch((error) => {
       console.log(error);
     })
-
+    .finally(() => {
+      elementPopup.renderLoading(false);
+    })
 };
-
 
 
 const section = new Section(
@@ -103,7 +113,7 @@ const section = new Section(
   elements
 )
 
-/*section.renderer()//зарендерил карточки*/
+// section.renderer()
 
 //беру исходные данные
 const profileInfo = new UserInfo({
@@ -125,59 +135,49 @@ function profileEditHandler() {
   jobInputValue.value = job;
   profilePopup.open()
   addFormValidationProfile.resetValidation()
-  profileButton.textContent = 'Сохранить'
+
 }
 
-
-function handleProfileSubmit(data) {//SubmitCallBack номер 1
+function handleProfileSubmit(data) {
+  profilePopup.renderLoading(true)
   api.editUserInfo(data)
     .then((info) => {
-      profileButton.textContent = 'Сохранение..'
-      setTimeout(() => profileInfo.setUserInfo(info), 2000)
+      profileInfo.setUserInfo(info)
     })
-
     .catch((error) => {
       console.log(error);
+    })
+    .finally(() => {
+      profilePopup.renderLoading(false)
     });
 }
-
-function elementEditHandler() {
-  elementPopup.open()
-  nameOfNewElement.value = ''
-  linkOfNewElement.value = ''
-  addFormValidationImage.resetValidation()
-  popupButtonToCreateNewElement.textContent = 'Создать'
-}
-
-
 
 
 function avatarEditHandler() {
   avatarPopup.open()
-  linkOfNewAva.value = ''
   addFormValidationAvatar.resetValidation()
-  avatarButtonSubmit.textContent = 'Сохранить'
 }
-function changeAvatar() {//отправлю данные на сервер и обновлюсь //SubmitCallBack номер 3
-  api.changeAvatar(linkOfNewAva.value)
 
+function changeAvatar(data) {
+  avatarPopup.renderLoading(true);
+  api.changeAvatar(data.link)
     .then((info) => {
-      avatarButtonSubmit.textContent = 'Сохранение..'
-      setTimeout(() => profileInfo.setUserInfo(info), 2000)
-    })//обновил
-
+      profileInfo.setUserInfo(info);
+      avatarPopup.close();
+    })
     .catch((error) => {
       console.log(error);
+    })
+    .finally(() => {
+      avatarPopup.renderLoading(false);
     });
 }
-
 
 
 //слушатели
 profileButtonInfo.addEventListener('click', profileEditHandler);
 addButtonPlace.addEventListener('click', elementEditHandler);
 avatarButton.addEventListener('click', avatarEditHandler)
-
 
 
 imagePopup.setEventListeners()

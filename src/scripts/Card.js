@@ -58,7 +58,12 @@ export class Card {
     }
   }
   _handeDeleteClick = () => {
-    this._delete(this._mainTemplate)
+    this._delete()
+  }
+
+  _removeTemplate() {
+    this._mainTemplate.remove()
+    this._mainTemplate = null
   }
 
   _chekTheLikes = ({ likes }) => {//взаимодействую с длиной масива likes[] который пополняется другими студентами

@@ -62,3 +62,5 @@ export const profileButton = document.querySelector('.popup__button_type_save')
 export const avatarButtonSubmit = document.querySelector('.popup__button_type_change')
 export const popupConfirm = document.querySelector('.popup_type_confirm')
 export const deleteButtonOnCard = document.querySelector('.element__delete')
+
+
