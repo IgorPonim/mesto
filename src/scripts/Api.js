@@ -3,26 +3,27 @@ export class Api {
     this._adress = adress,
       this._headers = headers
   }
+
+//сделал по вашей рекомендации
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    else return Promise.reject(`Ошибка ${res.status}`);
+  }
+
+
+
   getInitialCards() {//метод загрузки исходных карточек
     return fetch(this._adress + '/cards', {
       headers: this._headers,
-    }).then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    }).then(this._checkResponse) //просто передал функцию, не вызвал, как вы сказали
   }
 
   getUserInfo() {//метод загрузки жака ива кусто
     return fetch(this._adress + '/users/me', {
       headers: this._headers,
-    }).then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    }).then(this._checkResponse)
   }
 
   editUserInfo(data) {//через метод patch дам возможность поменять имя пользователя
@@ -33,12 +34,7 @@ export class Api {
         name: data.name,
         about: data.job
       })
-    }).then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    }).then(this._checkResponse)
   }
 
   createCard({ name, link }) {
@@ -49,12 +45,7 @@ export class Api {
         name,
         link
       })
-    }).then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    }).then(this._checkResponse)
   }
 
   //// лайки
@@ -62,24 +53,14 @@ export class Api {
     return fetch(this._adress + `/cards/${cardId}/likes/`, {
       method: 'PUT',
       headers: this._headers,
-    }).then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    }).then(this._checkResponse)
   }
 
   deleteLike = (cardId) => {
     return fetch(this._adress + `/cards/${cardId}/likes/`, {
       method: 'DELETE',
       headers: this._headers,
-    }).then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    }).then(this._checkResponse)
   }
 
   changeAvatar(avatar) {//через отправлю через patch ссылку на аватар
@@ -89,24 +70,14 @@ export class Api {
       body: JSON.stringify({
         avatar
       })
-    }).then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    }).then(this._checkResponse)
   }
 
   deleteСards = (cardId) => {
     return fetch(this._adress + `/cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers,
-    }).then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    }).then(this._checkResponse)
   }
 
 

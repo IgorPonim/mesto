@@ -42,13 +42,13 @@ export class FormValidator {
 
 
   _toggleButtonState() {
-    this._submitButton.disabled = this._form.checkValidity();//вернет true если пройдет проверку
+    this._submitButton.disabled = !this._form.checkValidity();
     this._submitButton.classList.toggle(this._validationConfig.inactiveButtonClass, !this._form.checkValidity())//если валидация false меняет класс на белую кнопку
-    this._submitButton.toggleAttribute('disabled');
+    //точняк, написал не приходя в сознание
   }
-  //мне кажется это публичный метод
+
   resetValidation() {
-    /* сделал по вашему совету, норм*/
+
     this._inputList.forEach((input) => {
       const inputError = this._form.querySelector(`#${input.id}-error`);
       this._hideInputError(input, inputError);

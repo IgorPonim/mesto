@@ -6,6 +6,9 @@ export class PopupWithForm extends Popup {
     super(popup);
     this._submitCallback = submitCallback;
     this._inputs = [...this._popup.querySelectorAll('.popup__input')]//собираю массив инпутов
+    this._form = this._popup.querySelector('.popup__form')
+    this._popupMegaUltraButton = this._popup.querySelector('.popup__button')
+    this._popupMegaUltraButtonInnerText = this._popupMegaUltraButton.textContent
   }
 
   //все как в задании - сделал новый массив из данных инпутов
@@ -20,15 +23,22 @@ export class PopupWithForm extends Popup {
   //повесил слушатель на кнопку
   setEventListeners() {
     super.setEventListeners();
-    this._popup.querySelector('.popup__form').addEventListener('submit', (event) => {
+    this._form.addEventListener('submit', (event) => {
       event.preventDefault();
       this._submitCallback(this._getInputValues());//
-      setTimeout(() => this.close(), 2000)
-
+      this.close()
+      //а было же так красиво!
     });
   }
+
+  close() {
+    super.close()
+    this._form.reset()
+  }
+
+  renderLoading(isLoading, buttonText = 'Сохранить') {
+    // тут устанавливаете текст кнопке
+    this._popupMegaUltraButton.textContent = isLoading ? 'Сохранение...' : buttonText;
+  }
+
 }
-
-
-
-
