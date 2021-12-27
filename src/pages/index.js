@@ -1,11 +1,11 @@
 import '../pages/index.css'
-import { Card } from '../scripts/Card.js';
-import { FormValidator } from '../scripts/FormValidator.js'
-import { Section } from '../scripts/Section.js';
-import { UserInfo } from '../scripts/UserInfo.js'
-import { PopupWithForm } from '../scripts/PopupWithForm.js'
-import { PopupWithImage } from '../scripts/PopupWithImage.js';
-import { ConfirmationPopup } from '../scripts/ConfirmationPopup.js';
+import { Card } from '../components/Card.js';
+import { FormValidator } from '../components/FormValidator.js'
+import { Section } from '../components/Section.js';
+import { UserInfo } from '../components/UserInfo.js'
+import { PopupWithForm } from '../components/PopupWithForm.js'
+import { PopupWithImage } from '../components/PopupWithImage.js';
+import { ConfirmationPopup } from '../components/ConfirmationPopup.js';
 
 import {
   popupProfile, popupElement, popupImage, profileButtonInfo, popupCloseButton, profileForm, nameInputValue, profileName, jobInputValue,
@@ -27,7 +27,7 @@ addFormValidationAvatar.enableValidation();
 
 
 
-import { Api } from '../scripts/Api.js';
+import { Api } from '../components/Api.js';
 const api = new Api({
   adress: "https://mesto.nomoreparties.co/v1/cohort-32",
   headers: {
@@ -40,6 +40,19 @@ const api = new Api({
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([userData, cards]) => {
     profileInfo.setUserInfo(userData);
+    //Геннадий, вы меня запутали немношко, написали в замечаниях чтобы я изменил метод renderItems(items) {
+      //а у меня нет функции с таким названием, и наставник не помог, в ПР8 все пропустили без замечаний
+      //может вы имели ввиду чтото типа такого cards.forEach((item) => {
+    //   createElements(
+    //     {
+    //       name: item.name,
+    //       link: item.link,
+    //       likes: item.likes,
+    //       _id: item._id,
+    //       owner: item.owner._id,
+    //     })
+    // }) //// но тогда мне нужно чтото придумать что делать с лайками, как то заморочиться прописать отдельную функцию для сравнения
+    //если можете и так пропустить - буду рад ;-) или напишите фидбэк
     cards.forEach(createElements);
   })
   .catch((err) => {
@@ -63,7 +76,7 @@ function createCard(data) {
         api.deleteСards(data._id)
           .then(() => {
             card._handeDeleteClick(data._id);
-            card._removeTemplate()
+            card.removeTemplate()
             confirmPopup.close();
           })
           .catch((err) => {
