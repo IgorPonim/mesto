@@ -61,7 +61,7 @@ export class Card {
     this._delete()
   }
 
-  _removeTemplate() {
+  removeTemplate() {
     this._mainTemplate.remove()
     this._mainTemplate = null
   }

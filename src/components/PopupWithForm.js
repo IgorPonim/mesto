@@ -26,8 +26,6 @@ export class PopupWithForm extends Popup {
     this._form.addEventListener('submit', (event) => {
       event.preventDefault();
       this._submitCallback(this._getInputValues());//
-      this.close()
-      //а было же так красиво!
     });
   }
 
@@ -36,9 +34,9 @@ export class PopupWithForm extends Popup {
     this._form.reset()
   }
 
-  renderLoading(isLoading, buttonText = 'Сохранить') {
+  renderLoading(isLoading) {
     // тут устанавливаете текст кнопке
-    this._popupMegaUltraButton.textContent = isLoading ? 'Сохранение...' : buttonText;
+    this._popupMegaUltraButton.textContent = isLoading ? 'Сохранение...' : this._popupMegaUltraButtonInnerText;
   }
 
 }
